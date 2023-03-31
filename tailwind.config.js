@@ -7,12 +7,12 @@ module.exports = {
     screens: {
       'sm': '640px',
       'md': '768px',
-      'lg': '1124px',
+      'lg': '1424px',
     },
     extend: {},
     colors: {
       'egreen': '#00E124'
-    }
+    },
   },
   plugins: [],
 }

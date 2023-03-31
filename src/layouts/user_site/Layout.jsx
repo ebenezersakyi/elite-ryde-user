@@ -1,17 +1,17 @@
-import Header from "../../components/shared_components/Header"
-import { Outlet } from "react-router-dom"
-import { bg } from "../../utils/bg-landing-page"
+import Header from "../../components/shared_components/Header";
+import { Outlet } from "react-router-dom";
+import { bg } from "../../utils/bg-landing-page";
+// import img from '../../assets/bg/bg1.svg'
 
 const Layout = () => {
-
+  const bgurl = "bg-[url('./assets/bg/bg1.svg')]";
   return (
-    <div className="relative h-full">
-      <img src={bg[2]} alt="bg" className="fixed top-0 left-0 right-0 bottom-0 w-full h-full z-[-2] " />
+    <div className={`relative min-h-[100vh] ${bgurl} bg-no-repeat bg-cover`}>
       <div className=" top-0 bottom-0 fixed  h-full w-full bg-[#000000df] z-[-3]"></div>
         <Header />
         <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

@@ -21,7 +21,8 @@ const Header = () => {
     },
   ];
   return (
-    <header className="text-[#fff] flex justify-between p-[2.5rem] items-center">
+    <div className="container mx-auto">
+      <header className="text-[#fff] flex justify-between p-[2.5rem] items-center">
       <nav className="flex gap-[2rem]">
         {navLinks.map(({ title, path }, indx) => {
           return (
@@ -50,6 +51,8 @@ const Header = () => {
         <HeaderBtn text="Contact us" link={"/"} />
       </div>
     </header>
+    </div>
+    
   );
 };
 
