@@ -7,7 +7,7 @@ import Tab from "../../components/landing-page/Tab";
 const LandingPage = () => {
   return (
     <div className="container mx-auto">
-      <div className="text-[#fff] px-[2.5rem] flex justify-between items-center py-[7rem]">
+      <div className="text-[#fff] px-[2.5rem] flex justify-between items-center py-[5rem]">
       <div className="flex flex-col">
         <h4 className="text-[5rem] font-semibold">
           <span className="text-egreen">Rent</span> the best cars
@@ -26,7 +26,7 @@ const LandingPage = () => {
       </div>
 
       <div className="py-[4rem] px-[2rem] rounded-[2rem] backdrop-blur-md flex flex-col gap-[3rem] border-[1px] border-[#fff] w-[35%]">
-        <h4 className="text-[2rem]">
+        <h4 className="text-[1.8rem]">
           Following <span className="text-egreen">three</span> working steps
         </h4>
 
