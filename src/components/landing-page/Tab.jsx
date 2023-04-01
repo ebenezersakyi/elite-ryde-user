@@ -5,7 +5,7 @@ const Tab = ({ icon, text }) => {
   return (
     <span className="flex gap-6 items-center">
       <Icon icon={icon} color="white" width={27}/>
-      <p className="font-light text-[1.5rem]">{text}</p>
+      <p className="font-light text-[1.3rem]">{text}</p>
     </span>
   );
 };
