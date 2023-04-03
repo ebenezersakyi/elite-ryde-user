@@ -7,7 +7,7 @@ import Tab from "../../components/landing-page/Tab";
 const LandingPage = () => {
   return (
     <div className="container mx-auto">
-      <div className="text-[#fff] px-[2.5rem] flex justify-between items-center py-[5rem]">
+      <div className="text-[#fff] px-[2.5rem] flex justify-between items-center py-[6rem]">
       <div className="flex flex-col">
         <h4 className="text-[5rem] font-semibold">
           <span className="text-egreen">Rent</span> the best cars
