@@ -21,18 +21,18 @@ const Header = () => {
     },
   ];
   return (
-    <div className="container mx-auto">
-      <header className="text-[#fff] flex justify-between p-[2.5rem] items-center">
+    <div className="2xl:container 2xl:mx-auto">
+      <header className="text-[#fff] flex justify-between px-[2.5rem] py-[2.5rem] items-center">
       <nav className="flex gap-[2rem]">
         {navLinks.map(({ title, path }, indx) => {
           return (
             <p
-              className={`text-[1.3rem] uppercaser font-[500] hover:text-egreen cursor-pointer duration-700  ${
-                pathname === path && "border-b-2 border-egreen text-egreen"
+            onClick={() => {
+              Nav(path);
+            }}
+              className={`text-[1.3rem] font-[500] hover:text-egreen cursor-pointer duration-500  ${
+                pathname === path && "border-b-2 border-egreen text-egreen "
               }`}
-              onClick={() => {
-                Nav(path);
-              }}
               key={indx}
             >
               {title}
