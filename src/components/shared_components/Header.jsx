@@ -30,7 +30,7 @@ const Header = () => {
             onClick={() => {
               Nav(path);
             }}
-              className={`text-[1.3rem] font-[500] hover:text-egreen cursor-pointer duration-500  ${
+              className={`text-[1.3rem] font-[500] hover:text-egreen cursor-pointer  ${
                 pathname === path && "border-b-2 border-egreen text-egreen "
               }`}
               key={indx}
