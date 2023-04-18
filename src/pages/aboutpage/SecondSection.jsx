@@ -2,7 +2,7 @@ import React from "react";
 import pic from '../../assets/about/car.svg'
 const SecondSection = () => {
   return (
-    <div className=" py-[13rem] grid grid-cols-2 px-[4rem] gap-8 items-center bg-[#000000af]">
+    <div className=" py-[13rem] grid grid-cols-2 px-[4rem] gap-8 items-center bg-[#0000007b]">
       <div>
         <h2 className="text-[4rem] leading-[3.5rem]">
           Best rental services for{" "}

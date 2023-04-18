@@ -25,7 +25,7 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="py-[4rem] px-[2rem] rounded-[2rem] backdrop-blur-[5px] flex flex-col gap-[3rem] border-[1px] border-[#fff] w-[35%]">
+      <div className="py-[4rem] px-[2rem] rounded-[2rem] backdrop-blur-[10px] flex flex-col gap-[3rem] border-[1px] border-[#fff] w-[35%]">
         <h4 className="text-[1.8rem]">
           Following <span className="text-egreen">three</span> working steps
         </h4>

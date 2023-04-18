@@ -1,15 +1,29 @@
 // import Header from "../../components/shared_components/Header";
 import { Outlet } from "react-router-dom";
+import { bg } from "../../utils/bg";
 import Dashboardheader from "../../components/userDashboardComponents/shared/Dashboardheader";
-import { bg } from "../../utils/bg-landing-page";
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
-const userDashBoardLayout = () => {
-  const bgurl = "bg-[url('./assets/bg/bg7.png')]";
+const UserDashBoardLayout = () => {
+  const [current, setCurrent] =useState(0)
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        if(current < bg.length -1){
+          setCurrent((_) => {
+            return _ + 1
+          } )
+        }
+        else{
+          setCurrent(0)
+        }
+      }, 7000)
+      return () => clearInterval(interval)
+    }, [current])
   return (
     <>
-    <div className={`relative ${bgurl} min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block `}>
-      <div className=" top-0 bottom-0 fixed  h-full w-full bg-[#000000df] z-[-3]"></div>
+    <div className={`relative min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block duration-700 `}>
+      <img src={bg[current]} alt="" className="fixed z-[-10]" />
         <Dashboardheader />
         <Outlet />
     </div>
@@ -17,4 +31,4 @@ const userDashBoardLayout = () => {
   )
 }
 
-export default userDashBoardLayout
+export default UserDashBoardLayout
