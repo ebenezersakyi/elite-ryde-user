@@ -23,9 +23,9 @@ const Layout = () => {
 
   return (
     <>
-    <div className={`relative  duration-700 min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block `}>
+    <div  className={`relative  duration-700 bg-no-repeat bg-fixed bg-cover bg-center hidden md:block `}>
       {/* <div className=" top-0 bottom-0 fixed  h-full w-full bg-[#000000df] z-[-3]"></div> */}
-      <img src={bg[current]} alt="" className="fixed z-[-10]" />
+      <img src={bg[current]} alt="" className="fixed aspect-auto object-cover w-screen h-screen top-0 bottom-0 left-0 right-0 z-[-10]" />
         <Header />
         <Outlet />
     </div>

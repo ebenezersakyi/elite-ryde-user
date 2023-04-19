@@ -23,7 +23,7 @@ const UserDashBoardLayout = () => {
   return (
     <>
     <div className={`relative min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block duration-700 `}>
-      <img src={bg[current]} alt="" className="fixed z-[-10]" />
+    <img src={bg[current]} alt="" className="fixed aspect-auto object-cover w-screen h-screen top-0 bottom-0 left-0 right-0 z-[-10]" />
         <Dashboardheader />
         <Outlet />
     </div>
