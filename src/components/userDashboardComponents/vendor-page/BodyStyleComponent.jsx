@@ -3,7 +3,7 @@ import coupe from '../../../assets/dashboard/vendor/body-styles/coupe.svg'
 import van from '../../../assets/dashboard/vendor/body-styles/van.svg'
 import truck from '../../../assets/dashboard/vendor/body-styles/truck.svg'
 import hatchback from '../../../assets/dashboard/vendor/body-styles/hatchBack.svg'
-const BodyStyleComponent = () => {
+const BodyStyleComponent = ({cls}) => {
   const types = [
     {
       name: "Coupe",
@@ -23,7 +23,7 @@ const BodyStyleComponent = () => {
     },
   ]
   return (
-    <div className="px-[2rem] py-2 ">
+    <div className={`${cls} `}>
        <h4 className="text-[1.2rem] mb-6">Body type:</h4>
 
        <div className='grid grid-cols-2 mx-auto justify-center  gap-[1.5rem]'>

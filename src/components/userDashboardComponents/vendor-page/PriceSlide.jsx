@@ -11,7 +11,7 @@ function valuetext(value) {
 
 const minDistance = 10;
 
-const PriceSlide = () => {
+const PriceSlide = ({cls}) => {
   const [value1, setValue1] = React.useState([20, 37]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
@@ -47,7 +47,7 @@ const PriceSlide = () => {
   };
 
   return (
-    <div className="pr-[1.5rem] py-2 border-[#fff]">
+    <div className={` border-[#fff] ${cls}`}>
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
         <div className="flex flex-row gap-4 items-center mb-3">
@@ -87,7 +87,7 @@ const PriceSlide = () => {
           width: "80%"
         }}
       />
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between gap-2 mt-8">
         <Dropdown category={"Car model"} options={car_model}/>
         <Dropdown category={"Transmission"} options={transmission}/>
         <Dropdown category={"Engine type"} options={engine_type}/>
