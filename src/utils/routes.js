@@ -7,7 +7,7 @@ import UserDashBoardLayout from "../layouts/user_dashboard/UserDashBoardLayout";
 import UserHome from "../pages/userDashboard/UserHome";
 import VendorsPage from '../pages/userDashboard/VendorsPage'
 import CarsPage from '../pages/userDashboard/CarsPage'
-
+import AvailablePage from "../pages/userDashboard/AvailablePage";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -42,6 +42,10 @@ export const routes = createBrowserRouter([
             {
                 path: "cars",
                 element: <CarsPage />
+            },
+            {
+                path: "available",
+                element: <AvailablePage />
             },
         ]
     }

@@ -47,7 +47,7 @@ const PriceSlide = () => {
   };
 
   return (
-    <div className="px-[1.5rem] py-2 border-[#fff]">
+    <div className="pr-[1.5rem] py-2 border-[#fff]">
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
         <div className="flex flex-row gap-4 items-center mb-3">
@@ -87,7 +87,7 @@ const PriceSlide = () => {
           width: "80%"
         }}
       />
-      <div className="flex gap-4 mt-8">
+      <div className="flex justify-between mt-8">
         <Dropdown category={"Car model"} options={car_model}/>
         <Dropdown category={"Transmission"} options={transmission}/>
         <Dropdown category={"Engine type"} options={engine_type}/>
