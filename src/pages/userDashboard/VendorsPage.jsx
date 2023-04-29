@@ -8,12 +8,12 @@ import calender from '../../assets/dashboard/vendor/second-pane/calender.svg'
 const VendorsPage = () => {
   const nav = useNavigate()
   return (
-    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] mt-[1.5rem] backdrop-blur-[12px]">
+    <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] my-[1.5rem] backdrop-blur-[12px]">
       <div className="border-[1px] rounded-2xl border-[#fff] p-[2rem] flex flex-col gap-[2rem]">
         <div className="grid-cols-3 border-[1px] grid rounded-2xl border-[#fff] p-8 divide-x-2">
-          <PriceSlide  cls={'pr-[1.5rem] py-2'}/>
-          <BodyStyleComponent cls={'px-[2rem] py-2'}/>
-          <DetailSelection cls={'pl-[2rem] py-2'}/>
+          <PriceSlide  />
+          <BodyStyleComponent />
+          <DetailSelection/>
         </div>
         <div className=" grid grid-cols-3 gap-[2rem] items-center">
           <div className=" border-[1px] grid grid-cols-3 col-span-2 items-center rounded-2xl border-[#fff] py-[3.5rem] divide-x-2">

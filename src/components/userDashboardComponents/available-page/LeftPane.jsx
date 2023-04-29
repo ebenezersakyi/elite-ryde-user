@@ -9,20 +9,21 @@ import arrow from '../../../assets/dashboard/vendor/back.svg'
 const LeftPane = () => {
   const nav = useNavigate()
   return (
-    <div className="px-4 pt-8 border-r-[0.7px] border-[#fff] backdrop-blur-[15px]">
+    // px-4 pt-8 rounded-2xl border-r-[0.7px] border-[#fff] backdrop-blur-[15px] lg:max-h-[100vh]  overflow-y-scroll
+    <div className="px-4 pt-8 max-h-screen col-span-1  overflow-y-scroll rounded-2xl border-r-[0.7px] min-w-[fit] border-[#fff] backdrop-blur-[15px]  scrollbar-hide ">
       <div className="flex  justify-between items-center pb-6">
-        <h4 className="font-semibold text-[1.4rem]">You Choose</h4>
-        <span className="flex gap-2 items-center cursor-pointer hover:text-egreen text-[1.2rem]" onClick={() => {
+        <h4 className="font-semibold text-[1.1rem]">You Choose</h4>
+        <span className="flex gap-2 items-center cursor-pointer hover:text-egreen text-[1rem]" onClick={() => {
           nav('/dashboard/vendors')
         }}>
           <img src={arrow} alt="" className="" />
           Back</span>
       </div>
 
-      <div className="grid grid-row-3 divide-y-[1px] gap-[2rem] items-center">
+      <div className="grid grid-row-3 divide-y-[1px] h-fit w-full gap-[2rem] items-center">
         <PriceSlide />
-        <BodyStyleComponent cls={"pt-[2rem]"} />
-        <DetailSelection cls={"py-[2rem]"} />
+        <BodyStyleComponent/>
+        <DetailSelection />
         <div className="flex flex-col gap-[1.5rem] py-[2rem] pl-4">
           <Picker
             img={location}

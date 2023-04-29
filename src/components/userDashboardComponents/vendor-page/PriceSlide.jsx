@@ -2,16 +2,16 @@ import React from "react";
 import Slider from "@mui/material/Slider";
 import Dropdown from "../shared/Dropdown";
 import { transmission, car_model, engine_type } from "../../../utils/dropdowncontents";
-
-
-
+import { useLocation } from "react-router-dom";
+import dash from '../../../assets/dashboard/vendor/body-styles/dash.svg'
 function valuetext(value) {
   return `${value}°C`;
 }
 
 const minDistance = 10;
 
-const PriceSlide = ({cls}) => {
+const PriceSlide = () => {
+  const { pathname } = useLocation();
   const [value1, setValue1] = React.useState([20, 37]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
@@ -47,14 +47,14 @@ const PriceSlide = ({cls}) => {
   };
 
   return (
-    <div className={` border-[#fff] ${cls}`}>
+    <div className={`  ${pathname == '/dashboard/available' && ' pr-[0px] py-1'} border-[#fff] pr-[1.5rem] py-2`}>
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
-        <div className="flex flex-row gap-4 items-center mb-3">
-          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row ">
+        <div className="flex flex-row items-center gap-4  mb-3">
+          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
             <input
               type="number"
-              className="bg-[transparent] focus:outline-none inline-block w-[80px]"
+              className={`${pathname == '/dashboard/available' && 'w-[40%]'} bg-[transparent] focus:outline-none inline-block w-[40%]`}
               value={value1[0]}
               onChange={(e) => {
                 setValue1(prev => {
@@ -64,11 +64,11 @@ const PriceSlide = ({cls}) => {
             />
             <p>GHS</p>
           </span>
-          -
-          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row">
+          <img src={dash} alt="" />
+          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
             <input
               type="text"
-              className="bg-[transparent] focus:outline-none inline-block w-[80px]"
+              className={`${pathname == '/dashboard/available' && 'w-[40%]'} bg-[transparent] focus:outline-none inline-block w-[40%]`}
               value={value1[1]}
             />
             <p>GHS</p>
@@ -84,10 +84,10 @@ const PriceSlide = ({cls}) => {
         disableSwap
         style={{
           color: "#00E124",
-          width: "80%"
+          width: "100%"
         }}
       />
-      <div className="flex justify-between gap-2 mt-8">
+      <div className={` flex justify-between gap-2 mt-8 items-center ${pathname == '/dashboard/available' && 'grid grid-cols-2 gap-3'}`}>
         <Dropdown category={"Car model"} options={car_model}/>
         <Dropdown category={"Transmission"} options={transmission}/>
         <Dropdown category={"Engine type"} options={engine_type}/>

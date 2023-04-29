@@ -15,6 +15,8 @@ module.exports = {
       'egreen': '#00E124'
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }
 
