@@ -1,16 +1,22 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import PriceSlide from "../vendor-page/PriceSlide";
 import BodyStyleComponent from "../vendor-page/BodyStyleComponent";
 import DetailSelection from "../vendor-page/DetailSelection";
 import Picker from "../shared/Picker";
 import calender from '../../../assets/dashboard/vendor/second-pane/calender.svg'
 import location from '../../../assets/dashboard/vendor/second-pane/location.svg'
+import arrow from '../../../assets/dashboard/vendor/back.svg'
 const LeftPane = () => {
+  const nav = useNavigate()
   return (
     <div className="px-4 pt-8 border-r-[0.7px] border-[#fff] backdrop-blur-[15px]">
-      <div className="flex gap-4 justify-between">
-        <h4>You Choose</h4>
-        <span>back</span>
+      <div className="flex  justify-between items-center pb-6">
+        <h4 className="font-semibold text-[1.4rem]">You Choose</h4>
+        <span className="flex gap-2 items-center cursor-pointer hover:text-egreen text-[1.2rem]" onClick={() => {
+          nav('/dashboard/vendors')
+        }}>
+          <img src={arrow} alt="" className="" />
+          Back</span>
       </div>
 
       <div className="grid grid-row-3 divide-y-[1px] gap-[2rem] items-center">

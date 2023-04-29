@@ -24,7 +24,7 @@ const CustBtn = ({ text, link }) => {
   const nav = useNavigate();
   return (
     <p
-      className="p-4 text-[1.5rem] cursor-pointer border-[1px] rounded-xl text-center font-semibold hover:bg-egreen/50 hover:border-egreen/50"
+      className="p-4 text-[1.5rem] cursor-pointer border-[1px] rounded-2xl text-center font-semibold hover:bg-egreen/50 hover:border-egreen/50"
       onClick={() => {
         nav(link)
       }}
