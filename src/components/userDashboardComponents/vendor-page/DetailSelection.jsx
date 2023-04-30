@@ -6,8 +6,8 @@ const DetailSelection = () => {
   const {pathname} = useLocation()
   return (
     <div className={`${
-      pathname == "/dashboard/available" && 'pl-[0px] px-0 pt-[2rem]'
-    } pl-[2rem] py-2 border-[#fff] grid grid-cols-2 items-center justify-center gap-4 `}>
+      pathname == "/dashboard/available" ? 'pl-[0px] px-0 pt-[2rem]': ' pl-[2rem] py-2 '
+    }  border-[#fff] grid grid-cols-2 items-center justify-center gap-4 `}>
         <Dropdown category={"Engine size"} options={engine_sizes}/>
         <Dropdown category={"Registration year"} options={years}/>
         <Dropdown category={"Seats"} options={number_of_seats}/>

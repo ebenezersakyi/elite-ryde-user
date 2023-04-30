@@ -27,22 +27,22 @@ const BodyStyleComponent = () => {
   return (
     <div
       className={`${
-        pathname == "/dashboard/available" && "px-[0rem] pt-[2rem]"
-      } px-[2rem] py-2 flex flex-col`}
+        pathname == "/dashboard/available" ? "px-[0rem] pt-[2rem] " : " px-[2rem] py-2 "
+      } flex flex-col`}
     >
       <h4 className="text-[1.2rem] mb-6">Body type:</h4>
 
       <div
         className={`${
-          pathname == "/dashboard/available" && "gap-[1rem]"
-        } grid grid-cols-2 grid-row-2 mx-auto justify-center  gap-[1.5rem] h-full w-full`}
+          pathname == "/dashboard/available" ? "gap-[1rem] " : ' gap-[1.5rem] '
+        } grid grid-cols-2 grid-row-2 mx-auto justify-center   h-full w-full`}
       >
         {types.map(({ image, name }, inx) => {
           return (
             <div
               key={inx}
               className={` ${
-                pathname == "/dashboard/available" && "py-[1rem]"
+                pathname == "/dashboard/available" ? "py-[1rem] " : ""
               } flex border-[1px] rounded-xl  items-center justify-center flex-col`}
             >
               <>
@@ -50,8 +50,8 @@ const BodyStyleComponent = () => {
                   src={image}
                   alt=""
                   className={` ${
-                    pathname == "/dashboard/available" && "h-[17px]"
-                  } h-[30px]`}
+                    pathname == "/dashboard/available" ? "h-[17px]" : " h-[30px] "
+                  } `}
                 />
                 <p className="capitalize">{name}</p>{" "}
               </>

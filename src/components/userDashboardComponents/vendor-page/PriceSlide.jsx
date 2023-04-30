@@ -47,7 +47,7 @@ const PriceSlide = () => {
   };
 
   return (
-    <div className={`  ${pathname == '/dashboard/available' && ' pr-[0px] py-1'} border-[#fff] pr-[1.5rem] py-2`}>
+    <div className={`  ${pathname == '/dashboard/available' ? ' pr-[0px] py-1 ' : ' pr-[1.5rem] py-2 '} border-[#fff] `}>
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
         <div className="flex flex-row items-center gap-4  mb-3">
