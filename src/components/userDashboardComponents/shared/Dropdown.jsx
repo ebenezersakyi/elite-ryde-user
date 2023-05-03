@@ -23,11 +23,11 @@ const Dropdown = ({category, options}) => {
         />
         {/* options */}
         {show && (
-          <div className="absolute top-[100%] z-[100] bg-[#000] max-h-[120px] overflow-y-auto py-2 mt-2 backdrop-blur-[12px] rounded-md border-[#fff] border-[1px]  w-fit left-0 flex flex-col px-2">
+          <div className="absolute top-[100%] z-[100] bg-[#000] max-h-[120px] overflow-y-auto py-1 mt-2 backdrop-blur-[12px] rounded-md border-[#fff] border-[1px]  w-full left-0 flex flex-col px-2">
             {options.map((elem, inx) => {
               return (
                 <p
-                  className="cursor-pointer capitalize text-[1rem] w-fit p-2 text-ellipsis"
+                  className="cursor-pointer capitalize text-[1rem] p-2 text-ellipsis"
                   key={inx}
                   onClick={() => {
                     setSelected(elem);

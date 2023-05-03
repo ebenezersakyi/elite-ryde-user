@@ -34,8 +34,8 @@ const BodyStyleComponent = () => {
 
       <div
         className={`${
-          pathname == "/dashboard/available" ? "gap-[1rem] " : ' gap-[1.5rem] '
-        } grid grid-cols-2 grid-row-2 mx-auto justify-center   h-full w-full`}
+          pathname == "/dashboard/available" ? "gap-[1rem] " : ' gap-[1.5rem] h-full '
+        } grid grid-cols-2 grid-row-2 mx-auto justify-center  w-full`}
       >
         {types.map(({ image, name }, inx) => {
           return (
