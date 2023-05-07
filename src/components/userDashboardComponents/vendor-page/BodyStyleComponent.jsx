@@ -27,7 +27,7 @@ const BodyStyleComponent = () => {
   return (
     <div
       className={`${
-        pathname == "/dashboard/available" ? "px-[0rem] pt-[2rem] " : " px-[2rem] py-2 "
+        pathname == "/dashboard/available" ? "px-[0rem] pt-[2rem] " : " px-[1.5rem] py-2 "
       } flex flex-col`}
     >
       <h4 className="text-[1.2rem] mb-6">Body type:</h4>

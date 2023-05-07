@@ -23,7 +23,7 @@ const Dropdown = ({category, options}) => {
         />
         {/* options */}
         {show && (
-          <div className="absolute top-[100%] z-[100] bg-[#000] max-h-[120px] overflow-y-auto py-1 mt-2 backdrop-blur-[12px] rounded-md border-[#fff] border-[1px]  w-full left-0 flex flex-col px-2">
+          <div className="absolute top-[100%] z-[100] bg-[#fff] text-[#000] max-h-[120px] overflow-y-auto py-1 mt-2 backdrop-blur-[12px] divide-y-[1px] rounded-md border-[#fff] border-[1px]  w-full left-0 flex flex-col px-2">
             {options.map((elem, inx) => {
               return (
                 <p

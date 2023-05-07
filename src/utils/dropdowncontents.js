@@ -1,6 +1,6 @@
 export const car_model = ["Any", "Range Rover", "Toyota"]
-export const transmission = ["Automatic", "manual"]
-export const engine_type = ["Petrol", "disel", "kerosene"]
+export const transmission = ["Automatic", "Manual"]
+export const engine_type = ["Petrol", "Diesel", "Kerosene"]
 
 const presentYear = new Date().getFullYear()
 
