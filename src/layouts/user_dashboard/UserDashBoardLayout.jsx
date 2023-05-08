@@ -8,10 +8,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const UserDashBoardLayout = () => {
   const nav = useNavigate()
-  const {isAuthenticated}= useAuth0()
+  const {isAuthenticated, loginWithRedirect}= useAuth0()
   useEffect(() =>{
     if(!isAuthenticated){
-      nav('/')
+      loginWithRedirect()
     }
   }, [])
   const [current, setCurrent] =useState(0)
