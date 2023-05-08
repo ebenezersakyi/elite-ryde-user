@@ -11,11 +11,7 @@ const UserDashBoardLayout = () => {
   const nav = useNavigate()
   const {isAuthenticated, loginWithPopup, isLoading}= useAuth0()
   useEffect(() =>{
-      if(!isLoading){
-        if(!isAuthenticated){
-          loginWithPopup()
-        }
-      }
+      console.log(isAuthenticated);
   }, [])
   const [current, setCurrent] =useState(0)
   const { pathname } = useLocation();
