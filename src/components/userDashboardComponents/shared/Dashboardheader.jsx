@@ -2,8 +2,9 @@ import React from "react";
 import logo from "../../../assets/logo.svg";
 import HeaderBtn from "../../header-components/HeaderBtn";
 import { useNavigate, useLocation } from "react-router-dom";
-
+import { useAuth0 } from "@auth0/auth0-react";
 const Dashboardheader = () => {
+  const { logout } = useAuth0();
   const Nav = useNavigate();
   const { pathname } = useLocation();
   const navLinks = [
@@ -48,7 +49,7 @@ const Dashboardheader = () => {
         {/* btns */}
         <div className="flex gap-4">
           <HeaderBtn text="Contact Us" link={"/"} />
-          <HeaderBtn text="log out" link={"/"} />
+          <HeaderBtn text="log out" authOFunc={logout} />
         </div>
       </header>
     </div>

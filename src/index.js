@@ -10,7 +10,7 @@ root.render(
     domain="elite-ryde.us.auth0.com"
     clientId="dhbmd34m1l593IFmG91ezD4515DVmP5L"
     authorizationParams={{
-      redirect_uri: window.location.origin
+      redirect_uri: "https://elite-ride-git-testing-auth-frimpsss.vercel.app/dashboard"
     }}
   >
     <App />

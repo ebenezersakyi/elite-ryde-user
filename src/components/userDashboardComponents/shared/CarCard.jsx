@@ -2,7 +2,7 @@ import React from 'react'
 
 const CarCard = ({name, location, price_per_day, year, transmission, image, user_ratings}) => {
   return (
-    <div className='rounded-[1.1rem] border-[1px] hover:border-[#808080] hover:border-[1px] duration-700'>
+    <div className='rounded-[20px] border-[1px] hover:border-[#808080] hover:border-[1px] duration-700'>
         <img src={image} alt="" className='w-[500%]'/>
 
         <div className='p-4 flex flex-col gap-[2rem]'>
