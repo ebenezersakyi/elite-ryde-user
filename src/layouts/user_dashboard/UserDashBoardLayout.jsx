@@ -1,10 +1,19 @@
 // import Header from "../../components/shared_components/Header";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { bg } from "../../utils/bg";
 import Dashboardheader from "../../components/userDashboardComponents/shared/Dashboardheader";
 import React, { useEffect, useState } from 'react'
+import { useAuth0 } from "@auth0/auth0-react";
+
 
 const UserDashBoardLayout = () => {
+  const nav = useNavigate()
+  const {isAuthenticated}= useAuth0()
+  useEffect(() =>{
+    if(!isAuthenticated){
+      nav('/')
+    }
+  }, [])
   const [current, setCurrent] =useState(0)
   const { pathname } = useLocation();
     useEffect(() => {

@@ -5,7 +5,7 @@ const CarCard = ({name, location, price_per_day, year, transmission, image, user
     <div className='rounded-[20px] border-[1px] hover:border-[#808080] hover:border-[1px] duration-700'>
         <img src={image} alt="" className='w-[500%]'/>
 
-        <div className='p-4 flex flex-col gap-[2rem]'>
+        <div className='p-4 flex flex-col gap-[2rem] backdrop-blur-md'>
             <div>
             <h4 className='font-semibold'>{name}</h4>
             <p className='text-[0.8rem] text-[#808080] font-light'>{location}, {year}, {transmission}</p>
