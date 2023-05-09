@@ -8,6 +8,7 @@ import UserHome from "../pages/userDashboard/UserHome";
 import VendorsPage from '../pages/userDashboard/VendorsPage'
 import CarsPage from '../pages/userDashboard/CarsPage'
 import AvailablePage from "../pages/userDashboard/AvailablePage";
+import Login from "../pages/user_site/Login";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -25,6 +26,10 @@ export const routes = createBrowserRouter([
                 path: "/help",
                 element: <HelpPage/>
             },
+            {
+                path: '/login',
+                element: <Login />
+            }
         ]
     },
     {

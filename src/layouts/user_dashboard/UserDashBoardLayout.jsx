@@ -9,10 +9,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const UserDashBoardLayout = () => {
   const nav = useNavigate()
-  const {isAuthenticated, loginWithPopup, isLoading}= useAuth0()
+  const {isAuthenticated, isLoading}= useAuth0()
   useEffect(() =>{
-      console.log(isAuthenticated);
-  }, [])
+
+    if(isLoading === false){
+      console.log("Check if is authenticated");
+    }
+    // }
+  }, [isLoading])
   const [current, setCurrent] =useState(0)
   const { pathname } = useLocation();
     useEffect(() => {
@@ -30,10 +34,11 @@ const UserDashBoardLayout = () => {
     }, [current])
   return (
     <>
-    <div className={`relative min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block duration-700 `}>
+    <div className={`relative  min-h-[100vh] bg-no-repeat bg-fixed bg-cover bg-center hidden md:block duration-700 `}>
     <img src={bg[current]} alt="" className="fixed aspect-auto object-cover w-screen h-screen top-0 bottom-0 left-0 right-0 z-[-10]" />
-        {pathname != '/dashboard/available' && <Dashboardheader />}
+        {pathname !== '/dashboard/available' && <Dashboardheader />}
         { isLoading ? <Loader/> :<Outlet />}
+        {/* <Outlet></Outlet> */}
     </div>
     </>
   )

@@ -9,13 +9,42 @@
       name="description"
       content="Web site created using create-react-app"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@300&display=swap"
+      rel="stylesheet"
+    />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>Elite Ride</title>
+    <style>
+      #loading {
+        padding-top: 3rem;
+        display: flex;
+        align-items: center;
+        width: 100vw;
+        justify-content: center;
+        font-family: 'Archivo', sans-serif;
+        color: white;
+        flex-direction: column;
+        text-align: center;
+        font-size: 1rem;
+      }
+    </style>
   </head>
-  <body>
+  <body style="background-color: black">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
+      <div id="loading">
+        <img src="./loader.svg" alt="" />
+        <h4>Loading</h4>
+        <p>
+          This screen usually appears when the app is updating itself. <br />
+          If this persists for too long try closing the browser, waiting a few seconds, then opening again.
+          </p>
+      </div>
     </div>
   </body>
+  <script></script>
 </html>
