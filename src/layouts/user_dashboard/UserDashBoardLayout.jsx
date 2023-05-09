@@ -13,9 +13,10 @@ const UserDashBoardLayout = () => {
   useEffect(() =>{
 
     if(isLoading === false){
-      console.log("Check if is authenticated");
+      if(isAuthenticated === false){
+        nav('/')
+      }
     }
-    // }
   }, [isLoading])
   const [current, setCurrent] =useState(0)
   const { pathname } = useLocation();
