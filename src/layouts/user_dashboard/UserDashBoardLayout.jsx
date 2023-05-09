@@ -13,7 +13,6 @@ const UserDashBoardLayout = () => {
   useEffect(() =>{
 
     if(isLoading === false){
-      console.log(error);
       if(isAuthenticated === false){
         nav('/')
       }
