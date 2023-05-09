@@ -5,13 +5,13 @@ import App from './App';
 import { Auth0Provider } from "@auth0/auth0-react";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-
+console.log(window.location.origin);
 root.render(
     <Auth0Provider
     domain="elite-ryde.us.auth0.com"
     clientId="dhbmd34m1l593IFmG91ezD4515DVmP5L"
     authorizationParams={{
-      redirect_uri: "http://localhost:3000/dashboard"
+      redirect_uri: `${window.location.origin}/dashboard`
     }}
   >
     <App />

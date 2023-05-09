@@ -9,7 +9,7 @@ const Dashboardheader = () => {
   const { pathname } = useLocation();
   const navLinks = [
     {
-      path: "/dashboard/",
+      path: "/dashboard",
       title: "Home",
     },
     {
