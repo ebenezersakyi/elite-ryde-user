@@ -1,10 +1,12 @@
 import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import LandingPageBtn from "../../components/landing-page/LandingPageBtn";
 import apple from "../../assets/store-btns/apple.svg";
 import android from "../../assets/store-btns/android.svg";
 import Tab from "../../components/landing-page/Tab";
 
 const LandingPage = () => {
+  const{ loginWithRedirect } = useAuth0()
   return (
     <div className="2xl:container 2xl:mx-auto px-[2.5rem]">
       <div className="text-[#fff] flex justify-between items-center py-[6rem]">
@@ -19,7 +21,7 @@ const LandingPage = () => {
         {/* btns */}
 
         <div className="flex gap-[2rem]">
-          <LandingPageBtn text={"Log In"} link="/dashboard/" />
+          <LandingPageBtn text={"Log In"} authOfunc={loginWithRedirect} />
           <LandingPageBtn text={"Sign Up"} link="/" />
           <LandingPageBtn text={"Become a vendor"} link="/" />
         </div>
