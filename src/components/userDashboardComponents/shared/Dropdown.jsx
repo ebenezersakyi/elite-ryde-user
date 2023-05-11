@@ -2,7 +2,9 @@ import React from "react";
 import { useState } from "react";
 import img from "../../../assets/dashboard/vendor/arrow.svg";
 import { useLocation } from "react-router-dom";
-const Dropdown = ({category, options}) => {
+import { useDispatch } from "react-redux";
+const Dropdown = ({category, options, setState}) => {
+  const dispatch = useDispatch()
   const{pathname} = useLocation()
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(options[0]);
@@ -31,6 +33,7 @@ const Dropdown = ({category, options}) => {
                   key={inx}
                   onClick={() => {
                     setSelected(elem);
+                    dispatch(setState(elem))
                   }}
                 >
                   {elem}

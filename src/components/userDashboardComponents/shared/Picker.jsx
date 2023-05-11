@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
+import { toast } from 'react-toastify';
+import { genetate, months } from "../../../utils/calender_generator";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
-import { genetate, months } from "../../../utils/calender_generator.js";
 import { useLocation } from "react-router-dom";
-const Picker = ({ img, cat, placeholder }) => {
+import { useSelector, useDispatch } from "react-redux";
+const Picker = ({ img, cat, placeholder, type, start, setDate }) => {
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
   return (
@@ -21,8 +23,11 @@ const Picker = ({ img, cat, placeholder }) => {
           }`}
         />
       </div>
-      <div className="">
-        <span className="flex items-center gap-2">
+      <div className="cursor-pointer">
+        <span
+          className="flex items-center justify-between gap-2 "
+          onClick={() => setShow(!show)}
+        >
           <h4
             className={`font-[500] text-[1.2rem] ${
               pathname == "/dashboard/available" && "text-[1.1rem]"
@@ -30,8 +35,12 @@ const Picker = ({ img, cat, placeholder }) => {
           >
             {cat}
           </h4>
-          <img src={arrow} alt="" />
-          {show && <CustomCalender hide={setShow}/>}
+          <img
+            src={arrow}
+            alt=""
+            className={`${show && "rotate-180"} duration-700`}
+          />
+          {show && type == 1 ? <CustomCalender hide={setShow} start={start} setDate={setDate}/> : ""}
         </span>
 
         <p
@@ -46,42 +55,86 @@ const Picker = ({ img, cat, placeholder }) => {
   );
 };
 
-export function CustomCalender({setDate, hide}) {
+function CustomCalender({ setDate, hide, start }) {
+  const dispatch = useDispatch()
+  const { pick_up_date, return_date } = useSelector((data) => data.details);
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
-  const [today, setToday] = useState(currentDate);
-
+  const [month, setMonth] = useState(currentDate.month())
+  const [year, setYear] = useState(currentDate.year());
+  const [selected, setSelected] = useState(currentDate)
+  const presentYear = new Date().getFullYear();
+  function generateYears() {
+    let arr = [];
+    for (let i = 0; i < 4; ++i) {
+      arr.push(presentYear + i);
+    }
+    return arr;
+  }
+  const _years = generateYears()
   return (
-    <div className="absolute top-[50%] right-1 px-3 py-1 rounded-md z-[100] bg-[#fff] text-[#000] text-center font-light ">
+    <div className="absolute bottom-[100%] w-[80%] right-[0%] pb-1  px-2 py-1 rounded-md z-[100] bg-[#fff] text-[#000] text-center font-light ">
+      <div className="flex justify-between text-[0.9rem] gap-2 mb-2 pt-2">
+        <select className=" outline-none" value={year} onChange={(e) => {
+          setYear(e.currentTarget.value)
+        }}>
+          {_years.map((elem) => {
+            return <option value={elem}>{elem}</option>;
+          })}
+        </select>
+
+        <select className=" outline-none" value={month} onChange={(e) => {
+          setMonth(e.target.value)
+        }}>
+          {[0,1,2,3,4,5,6,7,8,9,10,11].map((elem) => {
+            return <option value={elem}>{months[elem]}</option>;
+          })}
+        </select>
+      </div>
       <div>
-        <div className="grid grid-cols-7 gap-x-4 gap-y-1">
+        <div className="grid grid-cols-7 gap-x-1 gap-y-1">
           {days.map((element, index) => {
             return (
-              <h4 key={index} className="font-bold">
+              <h4 key={index} className="font-bold text-[0.9rem]">
                 {element}
               </h4>
             );
           })}
         </div>
-        <div className="grid grid-cols-7 gap-x-4 gap-y-1">
-          {genetate(today.month(), today.year()).map(
-            ({ date, istoday, currentMonth, pastMonth }, index) => {
+        <div className="grid grid-cols-7 gap-x-1 gap-y-1">
+          {genetate(month, year, start).map(
+            ({ date, istoday, currentMonth, pastMonth, past }, index) => {
               return (
                 <h4
                   onClick={() => {
-                    if(currentDate){
-                      hide(false)
+                    if (past || pastMonth ) {
+                      toast.error("Invalid Date")
+                    }
+                    else{
+                      hide(true);
+                      dispatch(setDate(date.format('DD/MM/YY')))
+                      toast.success("Date selected")
                     }
                   }}
                   key={index}
-                  className={`${
-                    pastMonth &&
-                    "line-through font-[100] cursor-not-allowed text-[#e40000]"
-                  } cursor-pointer ${
-                    !currentMonth
-                      ? "text-[#858585] cursor-not-allowed"
-                      : " hover:text-egreen"
-                  }`}
+                  className={`
+                  text-[0.9rem]
+                  ${
+                    past ?
+                    " line-through font-[100] cursor-not-allowed text-[#e40000] text-center hover:text-[#858585]" : ''
+                  }
+                  ${
+                    pastMonth ?
+                    "cursor-not-allowed line-through  text-[#858585] hover:text-[#858585] " : ""
+                  }
+                  ${
+                    !currentMonth && !past
+                      ? " text-[#858585] cursor-not-allowed "
+                      : " hover:text-egreen cursor-pointer"
+                  }
+                  ${istoday ? " border-egreen border-[1px] px-1 " : ""}
+                 
+                  `}
                 >
                   {date.date()}
                 </h4>
@@ -93,4 +146,5 @@ export function CustomCalender({setDate, hide}) {
     </div>
   );
 }
+
 export default Picker;

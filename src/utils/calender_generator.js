@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-export const genetate = (month = dayjs().month(), year = dayjs().year()) => {
+export const genetate = (month = dayjs().month(), year = dayjs().year(), start = dayjs()) => {
   const firstDateOfMonth = dayjs().year(year).month(month).startOf("month");
   const lastDayOfMonth = dayjs().year(year).month(month).endOf("month");
 
@@ -9,11 +9,13 @@ export const genetate = (month = dayjs().month(), year = dayjs().year()) => {
   for (let i = 0; i < firstDateOfMonth.day(); ++i) {
     arrayofDates.push({ date: firstDateOfMonth.day(i), currentMonth: false, pastMonth: true });
   }
-
   // generates current dates
   for (let i = firstDateOfMonth.date(); i <= lastDayOfMonth.date(); ++i) {
+    // console.log();
     arrayofDates.push({
       date: firstDateOfMonth.date(i),
+      past: firstDateOfMonth.date(i).isBefore(start.format('YYYY-MM-DD')),
+      isValid: "",
       currentMonth: true,
       istoday:
         firstDateOfMonth.date(i).toDate().toDateString() ===
@@ -29,7 +31,7 @@ export const genetate = (month = dayjs().month(), year = dayjs().year()) => {
     i <= remainingDays + lastDayOfMonth.date();
     ++i
   ) {
-    arrayofDates.push({ date: lastDayOfMonth.date(i), currentMonth: false });
+    arrayofDates.push({ date: lastDayOfMonth.date(i), currentMonth: false ,   past: firstDateOfMonth.date(i).isBefore(dayjs().format('YYYY-MM-DD')),});
   }
   return arrayofDates;
 };

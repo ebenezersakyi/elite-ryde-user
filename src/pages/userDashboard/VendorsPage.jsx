@@ -5,7 +5,11 @@ import DetailSelection from "../../components/userDashboardComponents/vendor-pag
 import Picker from "../../components/userDashboardComponents/shared/Picker";
 import location from '../../assets/dashboard/vendor/second-pane/location.svg'
 import calender from '../../assets/dashboard/vendor/second-pane/calender.svg'
+import dayjs from "dayjs";
+import { set_pick_up_date, set_return_date } from "../../store/dashboard_state_slice";
+import { useSelector } from "react-redux";
 const VendorsPage = () => {
+  const {pick_up_date, return_date} = useSelector((data) => data.details)
   const nav = useNavigate()
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] my-[1.5rem] backdrop-blur-[12px]">
@@ -17,9 +21,9 @@ const VendorsPage = () => {
         </div>
         <div className=" grid grid-cols-3 gap-[2rem] items-center">
           <div className=" border-[1px] grid grid-cols-3 col-span-2 items-center rounded-2xl border-[#fff] py-[3.5rem] divide-x-2">
-            <Picker img={location} cat={"Choose a location"} placeholder={"East Legon"}/>
-            <Picker img={calender} cat={"Pick-up date"} placeholder={new Date().toDateString()}/>
-            <Picker img={calender} cat={"Return date"} placeholder={new Date(2, 3, 2023).toDateString()}/>
+            <Picker img={location} cat={"Choose a location"} placeholder={"East Legon"} />
+            <Picker img={calender} cat={"Pick-up date"} placeholder={dayjs(pick_up_date).format('DD/MM/YYYY')} type={1} setDate={set_pick_up_date}/>
+            <Picker img={calender} cat={"Return date"} placeholder={dayjs(return_date).format('DD/MM/YYYY')} type={1} start={dayjs(pick_up_date)} setDate={set_return_date}/>
           </div>
           <div onClick={() =>{
               nav('/dashboard/available')
@@ -31,5 +35,4 @@ const VendorsPage = () => {
     </div>
   );
 };
-
 export default VendorsPage;

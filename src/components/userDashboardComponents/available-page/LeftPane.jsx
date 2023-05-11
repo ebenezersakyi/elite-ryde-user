@@ -39,6 +39,7 @@ const LeftPane = () => {
             img={calender}
             cat={"Return date"}
             placeholder={new Date(2, 3, 2023).toDateString()}
+            type={1}
           />
         </div>
       </div>

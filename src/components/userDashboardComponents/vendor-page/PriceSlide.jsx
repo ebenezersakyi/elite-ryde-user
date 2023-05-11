@@ -1,18 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Slider from "@mui/material/Slider";
 import Dropdown from "../shared/Dropdown";
-import { transmission, car_model, engine_type } from "../../../utils/dropdowncontents";
+import {
+  set_starting_price,
+  set_end_price,
+  set_car_model,
+  set_engine_type, 
+  set_transmisson
+} from "../../../store/dashboard_state_slice";
+import { useDispatch } from "react-redux";
+import {
+  transmission,
+  car_model,
+  engine_type,
+} from "../../../utils/dropdowncontents";
 import { useLocation } from "react-router-dom";
-import dash from '../../../assets/dashboard/vendor/body-styles/dash.svg'
-function valuetext(value) {
-  return `${value}°C`;
-}
-
-const minDistance = 10;
+import dash from "../../../assets/dashboard/vendor/body-styles/dash.svg";
 
 const PriceSlide = () => {
+  const dispatch = useDispatch();
+  function valuetext(value) {
+    return `${value}°C`;
+  }
+
+  const minDistance = 10;
+
   const { pathname } = useLocation();
-  const [value1, setValue1] = React.useState([20, 37]);
+  const [value1, setValue1] = React.useState([200, 5000]);
 
   const handleChange1 = (event, newValue, activeThumb) => {
     if (!Array.isArray(newValue)) {
@@ -24,42 +38,33 @@ const PriceSlide = () => {
     } else {
       setValue1([value1[0], Math.max(newValue[1], value1[0] + minDistance)]);
     }
-  };
-
-  const [value2, setValue2] = React.useState([20, 37]);
-
-  const handleChange2 = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) {
-      return;
-    }
-
-    if (newValue[1] - newValue[0] < minDistance) {
-      if (activeThumb === 0) {
-        const clamped = Math.min(newValue[0], 100 - minDistance);
-        setValue2([clamped, clamped + minDistance]);
-      } else {
-        const clamped = Math.max(newValue[1], minDistance);
-        setValue2([clamped - minDistance, clamped]);
-      }
-    } else {
-      setValue2(newValue);
-    }
+    dispatch(set_starting_price(value1[0]));
+    dispatch(set_end_price(value1[1]));
   };
 
   return (
-    <div className={`  ${pathname == '/dashboard/available' ? ' pr-[0px] py-1 ' : ' pr-[1.5rem] py-2 '} border-[#fff] `}>
+    <div
+      className={`  ${
+        pathname == "/dashboard/available"
+          ? " pr-[0px] py-1 "
+          : " pr-[1.5rem] py-2 "
+      } border-[#fff] `}
+    >
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
         <div className="flex flex-row items-center gap-4  mb-3">
           <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
             <input
               type="number"
-              className={`${pathname == '/dashboard/available' && 'w-[40%]'} bg-[transparent] focus:outline-none inline-block w-[40%]`}
+              className={`${
+                pathname == "/dashboard/available" && "w-[40%]"
+              } bg-[transparent] focus:outline-none inline-block w-[40%]`}
               value={value1[0]}
+              disabled={true}
               onChange={(e) => {
-                setValue1(prev => {
-                    return [e.target.value, prev[1]]
-                })
+                setValue1((prev) => {
+                  return [e.target.value, prev[1]];
+                });
               }}
             />
             <p>GHS</p>
@@ -68,8 +73,16 @@ const PriceSlide = () => {
           <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
             <input
               type="text"
-              className={`${pathname == '/dashboard/available' && 'w-[40%]'} bg-[transparent] focus:outline-none inline-block w-[40%]`}
+              disabled={true}
+              className={`${
+                pathname == "/dashboard/available" && "w-[40%]"
+              } bg-[transparent] focus:outline-none inline-block w-[40%]`}
               value={value1[1]}
+              onChange={(e) => {
+                setValue1((prev) => {
+                  return [prev[0], e.target.value];
+                });
+              }}
             />
             <p>GHS</p>
           </span>
@@ -78,19 +91,25 @@ const PriceSlide = () => {
       <Slider
         getAriaLabel={() => "Minimum distance"}
         value={value1}
+        min={200}
+        max={5000}
         onChange={handleChange1}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
         disableSwap
         style={{
           color: "#00E124",
-          width: "100%"
+          width: "100%",
         }}
       />
-      <div className={` flex justify-between gap-2 mt-8 items-center ${pathname == '/dashboard/available' && 'grid grid-cols-2 gap-3'}`}>
-        <Dropdown category={"Car model"} options={car_model}/>
-        <Dropdown category={"Transmission"} options={transmission}/>
-        <Dropdown category={"Engine type"} options={engine_type}/>
+      <div
+        className={` flex justify-between gap-2 mt-8 items-center ${
+          pathname == "/dashboard/available" && "grid grid-cols-2 gap-3"
+        }`}
+      >
+        <Dropdown category={"Car model"} options={car_model} setState={set_car_model} />
+        <Dropdown category={"Transmission"} options={transmission} setState={set_transmisson} />
+        <Dropdown category={"Engine type"} options={engine_type} setState={set_engine_type}/>
       </div>
     </div>
   );
