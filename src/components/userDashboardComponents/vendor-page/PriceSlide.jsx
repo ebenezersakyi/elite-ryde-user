@@ -5,8 +5,8 @@ import {
   set_starting_price,
   set_end_price,
   set_car_model,
-  set_engine_type, 
-  set_transmisson
+  set_engine_type,
+  set_transmisson,
 } from "../../../store/dashboard_state_slice";
 import { useDispatch } from "react-redux";
 import {
@@ -15,14 +15,15 @@ import {
   engine_type,
 } from "../../../utils/dropdowncontents";
 import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import dash from "../../../assets/dashboard/vendor/body-styles/dash.svg";
 
 const PriceSlide = () => {
   const dispatch = useDispatch();
+  const [params, setParams] = useSearchParams();
   function valuetext(value) {
     return `${value}°C`;
   }
-
   const minDistance = 10;
 
   const { pathname } = useLocation();
@@ -42,6 +43,20 @@ const PriceSlide = () => {
     dispatch(set_end_price(value1[1]));
   };
 
+  useEffect(() => {
+    if (params.get("start_price")) {
+      setValue1((prev) => {
+        return [params.get("start_price"), prev[1]];
+      });
+      dispatch(set_starting_price(params.get("start_price")))
+    }
+    if (params.get("end_price")) {
+      setValue1((prev) => {
+        return [prev[0], params.get("end_price")];
+      });
+      dispatch(set_end_price(params.get("end_price")))
+    }
+  }, [pathname]);
   return (
     <div
       className={`  ${
@@ -53,7 +68,7 @@ const PriceSlide = () => {
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>
         <div className="flex flex-row items-center gap-4  mb-3">
-          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
+          <span className="border-[1px] border-bgrey rounded-md py-2 px-4 flex flex-row justify-between">
             <input
               type="number"
               className={`${
@@ -67,10 +82,10 @@ const PriceSlide = () => {
                 });
               }}
             />
-            <p>GHS</p>
+            <p className="text-bgrey">GHS</p>
           </span>
           <img src={dash} alt="" />
-          <span className="border-[1px] rounded-md py-2 px-4 flex flex-row justify-between">
+          <span className="border-[1px] rounded-md border-bgrey py-2 px-4 flex flex-row justify-between">
             <input
               type="text"
               disabled={true}
@@ -84,7 +99,7 @@ const PriceSlide = () => {
                 });
               }}
             />
-            <p>GHS</p>
+            <p className="text-bgrey">GHS</p>
           </span>
         </div>
       </div>
@@ -96,7 +111,7 @@ const PriceSlide = () => {
         onChange={handleChange1}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
-        disableSwap
+        // disableSwap
         style={{
           color: "#00E124",
           width: "100%",
@@ -107,9 +122,24 @@ const PriceSlide = () => {
           pathname == "/dashboard/available" && "grid grid-cols-2 gap-3"
         }`}
       >
-        <Dropdown category={"Car model"} options={car_model} setState={set_car_model} />
-        <Dropdown category={"Transmission"} options={transmission} setState={set_transmisson} />
-        <Dropdown category={"Engine type"} options={engine_type} setState={set_engine_type}/>
+        <Dropdown
+          category={"Car model"}
+          options={car_model}
+          setState={set_car_model}
+          param={"car_model"}
+        />
+        <Dropdown
+          category={"Transmission"}
+          options={transmission}
+          setState={set_transmisson}
+          param={"transmission"}
+        />
+        <Dropdown
+          category={"Engine type"}
+          options={engine_type}
+          setState={set_engine_type}
+          param={"engine_type"}
+        />
       </div>
     </div>
   );

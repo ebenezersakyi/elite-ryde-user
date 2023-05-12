@@ -1,6 +1,7 @@
 // import Header from "../../components/shared_components/Header";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/shared_components/Loader";
+import CModal from "../../components/userDashboardComponents/shared/CModal";
 import { bg } from "../../utils/bg";
 import Dashboardheader from "../../components/userDashboardComponents/shared/Dashboardheader";
 import React, { useEffect, useState } from 'react'
@@ -43,7 +44,10 @@ const UserDashBoardLayout = () => {
         {(pathname !== '/dashboard/available') && <Dashboardheader />}
         <Outlet />
         {/* <Outlet></Outlet> */}
+
+     
     </div>
+       <CModal />
     </>
   )
 }

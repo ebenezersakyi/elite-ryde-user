@@ -12,7 +12,8 @@ module.exports = {
     },
     extend: {},
     colors: {
-      'egreen': '#00E124'
+      'egreen': '#00E124',
+      'bgrey' : '#696969'
     },
   },
   plugins: [

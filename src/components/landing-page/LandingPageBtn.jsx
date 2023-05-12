@@ -6,7 +6,7 @@ const LandingPageBtn = ({text, link, authOfunc}) => {
   return (
     <div className="cursor-pointer">
       <p
-        className="text-[#fff] px-6 py-2 text-[1.2rem] border-[#fff] rounded-xl border-2 "
+        className="text-[#fff] px-6 py-2 text-[1.2rem] font-semibold border-[#fff] rounded-xl border-2 "
         onClick={() => {
           if(link){
             nav(link);

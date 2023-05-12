@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+import dayjs from "dayjs";
 const initialState = {
   start_price: "200",
   end_price: "1500",
@@ -12,8 +12,8 @@ const initialState = {
   color: "",
   number_of_seats: '',
   location: "",
-  pick_up_date: new Date().toDateString(),
-  return_date: new Date().toDateString(),
+  pick_up_date: dayjs().toDate().toDateString(),
+  return_date: dayjs().toDate().toDateString(),
 };
 
 export const details_slice = createSlice({

@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import img from "../../../assets/dashboard/vendor/arrow.svg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-const Dropdown = ({category, options, setState}) => {
+const Dropdown = ({category, options, setState, param}) => {
   const dispatch = useDispatch()
   const{pathname} = useLocation()
   const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(options[0]);
+  const [params, _] = useSearchParams()
+  useEffect(() => {
+    if(params.get(param)){
+      setSelected(params.get(param))
+      dispatch(setState(params.get(param)))
+    }
+  }, [pathname])
   return (
     <div className={`${pathname == '/dashboard/available' && ''} w-full`}>
       <h4 className={`${pathname == '/dashboard/available' && 'text-[1rem]'} truncate text-[1.2rem] font-medium mb-4`}>{category}:</h4>
       <div
-        className={`${pathname == '/dashboard/available' && 'text-[0.95rem] px-2 py-[0.3rem] gap-2'} px-[10px] py-2 capitalize border-2 relative rounded-md border-[#fff] flex gap-4  justify-between cursor-pointer w-[100%]`}
+        className={`${pathname == '/dashboard/available' && 'text-[0.95rem] px-2 py-[0.3rem] gap-2'} px-[10px] py-2 capitalize border-2 relative rounded-md border-bgrey flex gap-4  justify-between cursor-pointer w-[100%]`}
         onClick={() => {
           setShow(!show);
         }}

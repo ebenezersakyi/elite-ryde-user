@@ -5,11 +5,21 @@ import truck from "../../../assets/dashboard/vendor/body-styles/truck.svg";
 import hatchback from "../../../assets/dashboard/vendor/body-styles/hatchBack.svg";
 import { set_body_style } from "../../../store/dashboard_state_slice";
 import { useDispatch} from "react-redux";
-import { useLocation} from "react-router-dom";
+import { useLocation, useSearchParams} from "react-router-dom";
 const BodyStyleComponent = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const [param, _] = useSearchParams()
   const [selected, setSelected] = useState();
+
+  useEffect(() => {
+
+      if(param.get("body_style")){
+        setSelected(param.get("body_style"))
+        dispatch(set_body_style(param.get("body_style")))
+      }
+
+  })
   const types = [
     {
       name: "Coupe",
@@ -53,11 +63,11 @@ const BodyStyleComponent = () => {
               key={inx}
               className={` ${
                 pathname == "/dashboard/available" ? "py-[1rem] " : ""
-              } flex border-[1px] rounded-xl ${
-                (selected == inx ) && "border-egreen "
+              } flex border-[1px]  rounded-xl ${
+                (selected == inx )  ? "border-egreen " : ' border-bgrey '
               } items-center justify-center flex-col cursor-pointer`}
               onClick={() => {
-                dispatch(set_body_style(name));
+                dispatch(set_body_style(inx));
                 setSelected(inx);
               }}
             >
