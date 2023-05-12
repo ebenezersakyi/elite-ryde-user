@@ -16,7 +16,6 @@ const LeftPane = () => {
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const nav = useNavigate();
   return (
-    // px-4 pt-8 rounded-2xl border-r-[0.7px] border-[#fff] backdrop-blur-[15px] lg:max-h-[100vh]  overflow-y-scroll
     <div className="px-4 pt-8 max-h-screen col-span-1  overflow-y-scroll rounded-2xl border-r-[0.7px] min-w-[fit] border-[#fff] backdrop-blur-[15px]  scrollbar-hide ">
       <div className="flex  justify-between items-center pb-6">
         <h4 className="font-semibold text-[1.1rem]">You Choose</h4>
@@ -47,7 +46,7 @@ const LeftPane = () => {
             placeholder={pick_up_date}
             type={1}
             setDate={set_pick_up_date}
-            p={'pick_up_date'}
+            p={"pick_up_date"}
           />
           <Picker
             img={calender}
