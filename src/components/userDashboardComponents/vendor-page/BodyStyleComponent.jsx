@@ -19,7 +19,7 @@ const BodyStyleComponent = () => {
         dispatch(set_body_style(param.get("body_style")))
       }
 
-  })
+  }, [pathname])
   const types = [
     {
       name: "Coupe",
