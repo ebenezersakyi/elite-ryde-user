@@ -47,7 +47,7 @@ const Header = () => {
 
       {/* btns */}
       <div className="flex gap-4">
-        <HeaderBtn text="Become a vendor" link={"/"} />
+        <HeaderBtn text="Rent your car" href={"https://ellite-ryde-vendor-site.vercel.app/"} />
         <HeaderBtn text="Contact us" link={"/"} />
       </div>
     </header>
