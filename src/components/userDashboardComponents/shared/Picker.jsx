@@ -15,7 +15,7 @@ const Picker = ({ img, cat, placeholder, type, start, setDate,p }) => {
     if(param.get(p)){
       dispatch(setDate(param.get(p)))
     }
-  })
+  },[])
   return (
     <div
       className={`px-[2rem] relative flex ${
@@ -155,18 +155,5 @@ function CustomCalender({ setDate, hide, start, p }) {
     </div>
   );
 }
-        // ${
-                  //   past ?
-                  //   " line-through font-[100] cursor-not-allowed text-[red] text-center hover:text-[#858585]" : 'hover:text-[red]'}
-                  // ${
-                  //   pastMonth ?
-                  //   "cursor-not-allowed  text-[#858585] hover:text-[#858585] " : ""
-                  // }
-                  // ${
-                  //   !currentMonth && !past
-                  //     ? " text-[#858585] cursor-not-allowed "
-                  //     : " hover:text-egreen cursor-pointer"
-                  // }
-                  // ${istoday ? " border-egreen border-[1px] px-1 " : ""}
 
 export default Picker;

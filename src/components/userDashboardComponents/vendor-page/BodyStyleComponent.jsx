@@ -4,22 +4,20 @@ import van from "../../../assets/dashboard/vendor/body-styles/van.svg";
 import truck from "../../../assets/dashboard/vendor/body-styles/truck.svg";
 import hatchback from "../../../assets/dashboard/vendor/body-styles/hatchBack.svg";
 import { set_body_style } from "../../../store/dashboard_state_slice";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { useLocation, useSearchParams} from "react-router-dom";
 const BodyStyleComponent = () => {
+  const { body_style } = useSelector((data) => data.details)
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const [param, _] = useSearchParams()
-  const [selected, setSelected] = useState();
 
   useEffect(() => {
-
       if(param.get("body_style")){
-        setSelected(param.get("body_style"))
         dispatch(set_body_style(param.get("body_style")))
       }
 
-  }, [pathname])
+  }, [])
   const types = [
     {
       name: "Coupe",
@@ -64,11 +62,10 @@ const BodyStyleComponent = () => {
               className={` ${
                 pathname == "/dashboard/available" ? "py-[1rem] " : ""
               } flex border-[1px]  rounded-xl ${
-                (selected == inx )  ? "border-egreen " : ' border-bgrey '
+                (body_style == inx)  ? "border-egreen " : ' border-bgrey '
               } items-center justify-center flex-col cursor-pointer`}
               onClick={() => {
                 dispatch(set_body_style(inx));
-                setSelected(inx);
               }}
             >
               <>

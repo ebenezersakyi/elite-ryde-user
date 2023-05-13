@@ -3,18 +3,16 @@ import { useState } from "react";
 import img from "../../../assets/dashboard/vendor/arrow.svg";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-const Dropdown = ({category, options, setState, param}) => {
+const Dropdown = ({category, options, setState, param, val}) => {
+  const [params, _] = useSearchParams()
   const dispatch = useDispatch()
   const{pathname} = useLocation()
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState(options[0]);
-  const [params, _] = useSearchParams()
   useEffect(() => {
     if(params.get(param)){
-      setSelected(params.get(param))
       dispatch(setState(params.get(param)))
     }
-  }, [pathname])
+  }, [])
   return (
     <div className={`${pathname == '/dashboard/available' && ''} w-full`}>
       <h4 className={`${pathname == '/dashboard/available' && 'text-[1rem]'} truncate text-[1.2rem] font-medium mb-4`}>{category}:</h4>
@@ -24,7 +22,7 @@ const Dropdown = ({category, options, setState, param}) => {
           setShow(!show);
         }}
       >
-        <p className="truncate">{selected}</p>
+        <p className="truncate">{options[val]}</p>
         <img
           src={img}
           alt=""
@@ -39,8 +37,7 @@ const Dropdown = ({category, options, setState, param}) => {
                   className="cursor-pointer capitalize text-[1rem] p-2 text-ellipsis"
                   key={inx}
                   onClick={() => {
-                    setSelected(elem);
-                    dispatch(setState(elem))
+                    dispatch(setState(inx))
                   }}
                 >
                   {elem}
