@@ -1,8 +1,8 @@
 import React from "react";
-import apple from "../../assets/store-btns/apple.svg";
-import android from "../../assets/store-btns/android.svg";
-import img from "../../assets/about/phonemockup.svg";
-import bg from "../../assets/about/bg-3.jpeg";
+import apple from "../../../assets/store-btns/apple.svg";
+import android from "../../../assets/store-btns/android.svg";
+import img from "../../../assets/about/phonemockup.svg";
+import bg from "../../../assets/about/bg-3.jpeg";
 const ThirdSection = () => {
   return (
     <div className="z-[100] relative  pt-[25rem] flex items-center justify-center ">

@@ -3,12 +3,16 @@ import logo from "../../../assets/logo.svg";
 import sample from "../../../assets/dashboard/sample_pp.svg";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
 import { show_log_out, show_settings } from "../../../store/modal_slide";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 const Dashboardheader = () => {
+  const nav = useNavigate()
   return (
     <div className="2xl:container 2xl:mx-auto">
       <header className="text-[#fff] flex justify-between px-[2.5rem] py-[1.5rem] items-center">
-          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" className="cursor-pointer" onClick={() => {
+            nav('/dashboard')
+          }}/>
         <UserTab />
       </header>
     </div>
@@ -45,7 +49,7 @@ function UserTab() {
       </span>
 
       <div
-        className={`${show ? 'block ': 'hidden ' } duration-300 absolute top-[100%] mt-2 py-2 rounded-lg border-[1px] border-bgrey w-[95%] right-0 backdrop-blur-lg bg-[#00000070]`}
+        className={`${show ? 'block ': 'hidden ' }  duration-300 fixed z-[1000000] top-[100%] mt-2 py-2 rounded-lg border-[1px] border-bgrey w-[95%] right-0 backdrop-blur-lg bg-[#000000c6]`}
       >
         <ul className="flex flex-col gap-2 text-[1.1rem] px-3">
           {list.map(({ name , func}, inx) => {

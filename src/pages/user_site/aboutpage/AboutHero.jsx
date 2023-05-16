@@ -1,7 +1,7 @@
 import React from "react";
-import Card from "../../components/about-page-components/Card";
-import HeaderBtn from "../../components/header-components/HeaderBtn";
-import { AboutCards } from "../../utils/aboutCards";
+import Card from "../../../components/about-page-components/Card";
+// import HeaderBtn from "../../../components/header-components/HeaderBtn";
+import { AboutCards } from '../../../utils/aboutCards'
 const AboutHero = () => {
   return (
     <div className="px-[4rem]">
