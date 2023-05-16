@@ -28,7 +28,7 @@ const FeatureTab = ({ isChecked, icon, title }) => {
       </div>
 
       <div
-        className={`flex items-center rounded-md border-l-[1px] py-2 pl-2  pr-1 gap-1 flex-1 ${
+        className={`flex h-full items-center rounded-md border-l-[1px] py-2 pl-2  pr-1 gap-1 flex-1 ${
           isChecked ? "border-egreen" : "border-bgrey"
         }`}
       >
