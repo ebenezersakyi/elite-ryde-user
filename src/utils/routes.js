@@ -40,7 +40,8 @@ export const routes = createBrowserRouter([
                 element: <VendorsPage />
             },
             {
-                path: "cars",
+                // will have an id as query param
+                path: "car",
                 element: <CarsPage />
             },
             {
