@@ -8,13 +8,13 @@ const SecondSection = () => {
           Best rental services for{" "}
           <span className="text-egreen">car renters.</span>
         </h2>
-        <p className="text-[1.4rem] pr-[7rem] my-[2rem]">
+        <p className="text-[1.4rem] font-[100] pr-[7rem] my-[2rem]">
           Car rentals have never been an easier experience. We make it simple to
           rent a car by offering straightforward search tools, user ratings, and
           a wide variety of pick-up locations nationwide.
         </p>
         <div>
-          <span className="border-[#fff] border-2 text-[1.3rem]  px-4 py-3 rounded-lg">
+          <span className="border-[#fff] border-2 text-[1.3rem] font-[100]  px-4 py-3 rounded-lg">
             Play Video
           </span>
         </div>

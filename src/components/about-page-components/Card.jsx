@@ -9,7 +9,7 @@ const Card = ({ text, subtext, icons }) => {
       </span>
       <span>
         <h4 className="text-egreen font-medium text-[1.6rem] mb-4">{text}</h4>
-        <p className="font-light text-[1.2rem] lg:pr-[5rem]">{subtext}</p>
+        <p className=" text-[1.2rem] lg:pr-[5rem] font-[100] ">{subtext}</p>
       </span>
     </div>
   );
