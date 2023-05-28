@@ -1,7 +1,9 @@
 import React from "react";
 import Field from "../../../shared_components/InputField";
 import sample from "../../../../assets/dashboard/sample_pp.svg";
+import { useAuth0 } from "@auth0/auth0-react";
 const MainAccount = () => {
+  const { user } = useAuth0();
   return (
     <div className="m-6 rounded">
       <h4 className="text-egreen font-bold text-[2rem] text-right">Account</h4>
@@ -10,9 +12,9 @@ const MainAccount = () => {
         <h4 className="text-[1.2rem] font-[200]">Profile Details</h4>
         <span className="flex items-center gap-4">
           <img
-            src={sample}
-            alt=""
-            className="border-bgrey border-2 rounded-full"
+            src={user?.picture}
+            alt="user picture"
+            className="h-[50px] rounded-full"
           />
           <div>
             <span>
@@ -42,10 +44,10 @@ const MainAccount = () => {
         </span>
 
         <p className="border-[#fff]  font-[100] rounded-md text-center border-[1px] flex items-center justify-center py-4 px-8">
-            You can permanently delete or 
-            <br />
-            temporarily freeze your account
-          </p>
+          You can permanently delete or
+          <br />
+          temporarily freeze your account
+        </p>
       </div>
     </div>
   );

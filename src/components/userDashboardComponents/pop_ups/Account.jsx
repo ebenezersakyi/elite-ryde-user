@@ -3,8 +3,10 @@ import { Icon } from "@iconify/react";
 import sample from "../../../assets/dashboard/sample_pp.svg";
 import MainAccount from "./accounts/MainAccount";
 import Billing from "./accounts/Billing";
+import { useAuth0 } from "@auth0/auth0-react";
 const Account = () => {
     const [active, setActive] = useState(0)
+    const {user} = useAuth0()
   const menuItems = [
     {
       icon: "mdi:user",
@@ -27,8 +29,8 @@ const Account = () => {
     <div className="text-[#fff] border-bgrey border-[1px] rounded-xl bg-[#000] grid grid-cols-3 gap-[3rem]">
       <div className="p-6 h-fit">
         <div className="flex gap-3 items-center">
-          <img src={sample} alt="" />
-          <h4 className="font-bold text-[1.3rem]">Richmann</h4>
+        <img src={user?.picture} alt="user picture"  className="h-[50px] rounded-full"/>
+          <h4 className="font-bold text-[1.3rem]">{user?.name.split(' ')[1]}</h4>
         </div>
 
         {/* menu */}

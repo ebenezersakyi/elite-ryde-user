@@ -22,8 +22,8 @@ const LandingPage = () => {
         {/* btns */}
 
         <div className="flex gap-[2rem]">
-          <LandingPageBtn text={"Log In"} link={'dashboard'} />
-          <LandingPageBtn text={"Sign Up"} link="/" />
+          <LandingPageBtn text={"Log In"} authOfunc={loginWithRedirect} />
+          <LandingPageBtn text={"Sign Up"} link="/sign-up" />
           {/* <LandingPageBtn text={"Become a vendor"} link="/" /> */}
         </div>
       </div>

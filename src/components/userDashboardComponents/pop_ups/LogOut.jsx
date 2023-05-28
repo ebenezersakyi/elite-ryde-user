@@ -2,7 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { hide_modal } from "../../../store/modal_slide";
 import { useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
 const LogOut = () => {
+  const {logout} = useAuth0()
   const nav = useNavigate()
   const dispatch = useDispatch()
   return (
@@ -15,7 +17,7 @@ const LogOut = () => {
         <p 
           onClick={() => {
               dispatch(hide_modal())
-              nav('/')
+              logout()
           }}
         className="font-[200] rounded-xl border-[1px] text-[1.3rem] border-[#fff] px-5 text-center py-1 cursor-pointer hover:border-egreen duration-700">
           YES
