@@ -1,29 +1,32 @@
+"use strict"
 import React from "react";
-import Calander from "../shared/Calander";
+import Calendar from 'react-calendar';
 import { Icon } from "@iconify/react";
-
+import { useSelector } from "react-redux";
+import 'react-calendar/dist/Calendar.css';
 const TimeDetails = () => {
+  const { data } = useSelector((d) => d?.selected_car);
   const Available = [
     {
-      day: "Weekday",
-      value: true,
+      day: "Weekdays",
+      value: data?.booking?.availability == "Weekdays",
     },
     {
-      day: "Weekend",
-      value: false,
+      day: "Weekends",
+      value: data?.booking?.availability == "Weekends",
     },
     {
       day: "Both",
-      value: false,
+      value: data?.booking?.availability == "Both",
     },
   ];
   return (
-    <div className="grid grid-cols-3 gap-[2rem] px-[4rem] py-[2rem] items-center">
+    <div className="grid grid-cols-3 gap-[2rem] px-[0rem] py-[2rem] items-center">
       <div className="col-span-2 text-[1.1rem] font-[500]">
         <h4 className="mb-6">Available for booking from</h4>
         <span className="flex gap-4">
-          <Calander />
-          <Calander />
+          <Calendar className={'text-[#000]'} />
+          <Calendar className={'text-[#000]'} />
         </span>
       </div>
 

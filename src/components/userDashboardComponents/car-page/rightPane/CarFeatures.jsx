@@ -1,66 +1,84 @@
 import React from 'react'
 import FeatureTab from './FeatureTab'
+import { useSelector } from 'react-redux';
 const CarFeatures = () => {
+  const { data: {features} } = useSelector((d) => d?.selected_car);
+  // gps: false, 
+  // aux: false,
+  // sun_roof: false,
+  // child_seat: false,
+  // bluetooth: false,
+  // bike_rack: false, 
+  // third_row_seat: false,
+  // mud_tyres: false,
+  // chains: false,
+  // car_taint: false,
+  // roof_box: false, 
+  // _18_plus: false,
+  // smoking_allowed: false,
+  // outside_accra: false,
+  // deliver_car: false,
+  // usb: false
   const feature_list = [
     {
       icon: 'ic:baseline-gps-fixed',
       title: 'GPS',
-      isChecked: true
+      isChecked: features?.includes("gps")
     },
     {
       icon: 'mdi:audio-input-stereo-minijack',
       title: 'Audio Input',
-      isChecked: false
+      isChecked: features?.includes("aux")
     },
     {
       icon: 'ph:sun-dim',
       title: 'Sun Roof',
-      isChecked: true
+      isChecked: features?.includes("sun_roof")
     },
     {
       icon: 'mdi:car-child-seat',
       title: 'Child Seat',
-      isChecked: false
+      isChecked: features?.includes("child_seat")
     },
     {
       icon: 'material-symbols:bluetooth-connected',
       title: 'Bluetooth',
-      isChecked: true
+      isChecked: features?.includes("bluetooth")
     },
     {
       icon: 'mdi:usb-port',
       title: 'USB Input',
-      isChecked: false
+      isChecked: features?.includes("usb")
     },
     {
       icon: 'material-symbols:directions-bike',
       title: 'Bike Rack',
-      isChecked: false
+      isChecked: features?.includes("bike_rack")
     },
     {
       icon: 'material-symbols:add',
       title: '3rd Row Seat',
-      isChecked: true
+      isChecked: features?.includes("third_row_seat")
     },
     {
       icon: 'mdi:tyre',
       title: 'Mud Tyres',
-      isChecked: false
+      isChecked: features?.includes("mud_tyres")
     },
     {
       icon: 'akar-icons:link-chain',
       title: 'Chains',
-      isChecked: true
+      isChecked: features?.includes("chains")
     },
     {
       icon: 'material-symbols:directions-car-outline',
       title: 'Car Taint',
-      isChecked: false
+      isChecked: features?.includes("car_taint")
     },
     {
       icon: 'material-symbols:directions-car-outline',
       title: 'Roof box',
-      isChecked: true
+      isChecked: features?.includes("roof_box")
     },
   ]
 
@@ -69,21 +87,22 @@ const CarFeatures = () => {
     {
       icon: 'uil:18-plus',
       title: '18 plus',
-      isChecked: true
+      isChecked: features?.includes("_18_plus")
     },
     {
       icon: 'ic:baseline-smoking-rooms',
       title: 'Smoking Allowed',
-      isChecked: false
+      isChecked: features?.includes("smooking_allowed")
     },
     {
       icon:'material-symbols:location-on',
-      title: 'Trips Outside Accra'
+      title: 'Trips Outside Accra', 
+      isChecked: features?.includes("outside_accra")
     },
     {
       icon: 'material-symbols:directions-car-outline',
       title: 'Willing to deliver Car',
-      isChecked: true
+      isChecked: features?.includes("deliver_car")
     },
   ]
   return (

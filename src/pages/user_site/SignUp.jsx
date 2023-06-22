@@ -41,8 +41,9 @@ const SignUpPage = () => {
           phoneNumber: formic.values.phoneNumber,
           idType: id_type[formic.values.id],
           idNumber: formic.values.idNumber,
-          idImage: formic.values.idImage,
+          idImage: "formic.values.idImage",
           existing: formic.values.existing,
+          location:'test'
         },
       });
 
@@ -148,7 +149,7 @@ const SignUpPage = () => {
         </div>
 
         <button
-          className="bg-[#ffffff4f] text-[#000] py-3 rounded-xl grid place-items-center"
+          className="bg-[#fff] text-[#000] py-3 rounded-xl grid place-items-center"
           type="submit"
           disabled={isloading}
         >

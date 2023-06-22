@@ -9,6 +9,7 @@ import VendorsPage from '../pages/userDashboard/VendorsPage'
 import CarsPage from '../pages/userDashboard/CarsPage'
 import AvailablePage from "../pages/userDashboard/AvailablePage";
 import SignUpPage from "../pages/user_site/SignUp";
+import SuccessPage from "../pages/user_site/SucessPage";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -29,6 +30,10 @@ export const routes = createBrowserRouter([
             {
                 path: '/sign-up',
                 element: <SignUpPage />
+            }, 
+            {
+                path: '/sucess', 
+                element: <SuccessPage />
             }
         ]
     },
