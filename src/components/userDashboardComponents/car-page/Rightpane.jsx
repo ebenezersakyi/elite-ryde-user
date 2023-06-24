@@ -7,7 +7,7 @@ import TimeDetails from './rightPane/TimeDetails'
 const Rightpane = () => {
 
   return (
-    <div className='col-span-2 max-h-[80vh] overflow-y-scroll flex flex-col gap-[2.5rem] scrollbar-hide' >
+    <div className='col-span-2 max-h-[85vh] overflow-y-scroll flex flex-col gap-[2.5rem] scrollbar-hide' >
         <SectionLayout title='Basic Information'>
           <BasicInformation />
         </SectionLayout>

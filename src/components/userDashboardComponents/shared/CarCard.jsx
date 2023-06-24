@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import car from "../../../assets/dashboard/cars/car.svg";
 import { useDispatch } from "react-redux";
-import { setData } from "../../../store/selected_car";
 const CarCard = ({
 
   name,
@@ -11,7 +10,6 @@ const CarCard = ({
   year,
   transmission,
   image,
-  user_ratings,
   id,
   data
 }) => {
@@ -21,7 +19,7 @@ const CarCard = ({
     <div
       className="rounded-[20px] border-[1px]  hover:border-[#808080] hover:border-[1px] duration-700 cursor-pointer"
       onClick={() => {
-        dispatch(setData(data))
+        // dispatch(setData(data))
         nav(`/dashboard/car?id=${id}`);
       }}
     >
