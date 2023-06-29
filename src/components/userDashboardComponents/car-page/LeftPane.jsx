@@ -27,7 +27,7 @@ const LeftPane = () => {
         url: `https://elite-ryde-management-api.azurewebsites.net/api/book-a-ride`,
         method: "post",
         data: {
-          userId: user?.sub.slice(6),
+          userEmail: user?.email,
           carId: data?._id,
           rentalDuration: days,
           rentalPrice: !out
