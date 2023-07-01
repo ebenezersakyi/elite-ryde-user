@@ -17,7 +17,7 @@ const LogOut = () => {
         <p 
           onClick={() => {
               dispatch(hide_modal())
-              logout({ logoutParams: { returnTo: window.location.origin + '/dashboard' } })
+              logout({ logoutParams: { returnTo: window.location.origin } })
           }}
         className="font-[200] rounded-xl border-[1px] text-[1.3rem] border-[#fff] px-5 text-center py-1 cursor-pointer hover:border-egreen duration-700">
           YES
