@@ -2,7 +2,7 @@ import React from 'react'
 import FeatureTab from './FeatureTab'
 import { useSelector } from 'react-redux';
 const CarFeatures = () => {
-  const { data: {features} } = useSelector((d) => d?.selected_car);
+  const { data: {features, rentalConditions} } = useSelector((d) => d?.selected_car);
   // gps: false, 
   // aux: false,
   // sun_roof: false,
@@ -87,22 +87,22 @@ const CarFeatures = () => {
     {
       icon: 'uil:18-plus',
       title: '18 plus',
-      isChecked: features?.includes("_18_plus")
+      isChecked: rentalConditions?.includes("_18_plus")
     },
     {
       icon: 'ic:baseline-smoking-rooms',
       title: 'Smoking Allowed',
-      isChecked: features?.includes("smooking_allowed")
+      isChecked: rentalConditions?.includes("smooking_allowed")
     },
     {
       icon:'material-symbols:location-on',
       title: 'Trips Outside Accra', 
-      isChecked: features?.includes("outside_accra")
+      isChecked: rentalConditions?.includes("outside_accra")
     },
     {
       icon: 'material-symbols:directions-car-outline',
       title: 'Willing to deliver Car',
-      isChecked: features?.includes("deliver_car")
+      isChecked: rentalConditions?.includes("deliver_car")
     },
   ]
   return (
