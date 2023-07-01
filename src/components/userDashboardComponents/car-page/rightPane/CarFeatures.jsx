@@ -92,7 +92,7 @@ const CarFeatures = () => {
     {
       icon: 'ic:baseline-smoking-rooms',
       title: 'Smoking Allowed',
-      isChecked: rentalConditions?.includes("smooking_allowed")
+      isChecked: rentalConditions?.includes("smoking_allowed")
     },
     {
       icon:'material-symbols:location-on',
