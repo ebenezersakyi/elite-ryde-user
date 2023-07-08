@@ -1,18 +1,33 @@
 import Field from "../../components/shared_components/InputField";
-// src/components/userDashboardComponents/home
 import React, { useEffect, useState } from "react";
-import IconLoading from "../../components/userDashboardComponents/shared/IconLoading";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import IconLoading from "../../components/shared_components/IconLoading";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 const SignUpPage = () => {
   const validationSchema = Yup.object({
-    firstName: Yup.string().required()
-  })
+    firstName: Yup.string().required("Fisrt name is required"),
+    lastName: Yup.string().required("Last name is required"),
+    email: Yup.string().email("Invalid email").required("Email is required"),
+    issued: Yup.string().required("Required Date"),
+    expiry: Yup.string().required("Required Date"),
+    existing: Yup.boolean(),
+    GPSAddress:Yup.string().required(),
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(
+        /^[1-9]\d{5,}$/,
+        "Invalid Number"
+      ),
+    ghanaian: Yup.boolean(),
+    idNumber:Yup.string().required('This field must be filled'),
+    password:Yup.string().required("Required")
+    
+  });
   const nav = useNavigate();
-  const [nonGh, setNonGh] = useState(false)
+  const [nonGh, setNonGh] = useState(false);
   const [isloading, setLoading] = React.useState(false);
   const id_type = ["Ghana-Card", "Driver-License"];
   const formic = useFormik({
@@ -21,14 +36,19 @@ const SignUpPage = () => {
       lastName: "",
       email: "",
       id: 0,
+      GPSAddress:'',
       existing: false,
       issued: "",
       expiry: "",
       phoneNumber: "",
       idNumber: "",
-      ghanaian: !nonGh
+      ghanaian: !nonGh,
+      password:""
     },
-    validate: (values) => {},
+    validationSchema,
+    validate: (values) => {
+      console.log('yes')
+    },
     onSubmit: (values) => {
       signUp();
     },
@@ -74,6 +94,8 @@ const SignUpPage = () => {
               value={formic.values.firstName}
               label={"Firstname"}
               onChange={formic.handleChange}
+              
+              error={formic.errors.firstName}
             />
             <Field
               name={"lastName"}
@@ -81,6 +103,16 @@ const SignUpPage = () => {
               value={formic.values.lastName}
               label={"Lastname"}
               onChange={formic.handleChange}
+              error={formic.errors.lastName}
+            />
+              <Field
+              name={"Password"}
+              type={"text"}
+              value={formic.values.password}
+              label={"Password"}
+              onChange={formic.handleChange}
+              
+              error={formic.errors.password}
             />
             <Field
               name={"email"}
@@ -88,6 +120,7 @@ const SignUpPage = () => {
               value={formic.values.email}
               label={"Email"}
               onChange={formic.handleChange}
+              error={formic.errors.email}
             />
             <Field
               name={"phoneNumber"}
@@ -95,24 +128,26 @@ const SignUpPage = () => {
               value={formic.values.phoneNumber}
               label={"Phone Number"}
               onChange={formic.handleChange}
+              error={formic.errors.phoneNumber}
             />
-            {
-              !nonGh &&            <Field
-              name={"phoneNumber"}
-              type={"number"}
-              value={formic.values.phoneNumber}
-              label={"GPS address"}
-              onChange={formic.handleChange}
-            />
-            }
+            {!nonGh && (
+              <Field
+                name={"GPSAddress"}
+                type={"GPSAddress"}
+                value={formic.values.GPSAddress}
+                label={"GPS address"}
+                onChange={formic.handleChange}
+                error={formic.errors.GPSAddress}
+              />
+            )}
           </SectionLayout>
           <SectionLayout>
-          <div className="flex items-center justify-between h-[3rem] ">
+            <div className="flex items-center justify-between h-[3rem] ">
               <input
                 type="checkbox"
                 name="existing"
                 value={nonGh}
-                onChange={() => (setNonGh(!nonGh))}
+                onChange={() => setNonGh(!nonGh)}
                 className="accent-egreen h-[1.5rem] w-[1.2rem] "
                 id=""
               />
@@ -130,10 +165,14 @@ const SignUpPage = () => {
                 value={formic.values.id}
                 className="bg-[#000] text-[#fff] border-[0.5px] border-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
               >
-                {nonGh ? <option value={"Passport"}>Passport</option> : <>
-                <option value={0}>Ghana Card</option>
-                <option value={1}>Driver license</option>
-                </>}
+                {nonGh ? (
+                  <option value={"Passport"}>Passport</option>
+                ) : (
+                  <>
+                    <option value={0}>Ghana Card</option>
+                    <option value={1}>Driver license</option>
+                  </>
+                )}
               </select>
             </div>
             <Field
@@ -142,6 +181,8 @@ const SignUpPage = () => {
               value={formic.values.idNumber}
               label={"ID Number"}
               onChange={formic.handleChange}
+
+              error={formic.errors.idNumber}
             />
 
             <span className="grid grid-cols-2 gap-3">
@@ -151,6 +192,7 @@ const SignUpPage = () => {
                 value={formic.values.issued}
                 label={"Date Issued"}
                 onChange={formic.handleChange}
+                error={formic.errors.issued}
               />
 
               <Field
@@ -159,6 +201,7 @@ const SignUpPage = () => {
                 value={formic.values.expiry}
                 label={"Expiry Date"}
                 onChange={formic.handleChange}
+                error={formic.errors.expiry}
               />
             </span>
             <div className="flex flex-col gap-3 lg:gap-2">
@@ -177,24 +220,24 @@ const SignUpPage = () => {
                 className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
               />
             </div>
-            {
-              nonGh && <div className="flex flex-col gap-3 lg:gap-2">
-              <label
-                htmlFor={formic.values.id}
-                className="font-[100] text-[1.2rem]"
-              >
-                UPLOAD PASSPORT PICTURE (PDF Only)
-              </label>
-              <input
-                name={"id"}
-                type="file"
-                onChange={(e) => {
-                  formic.setFieldValue("idImage", e?.target?.files[0]);
-                }}
-                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
-              />
-            </div>
-            }
+            {nonGh && (
+              <div className="flex flex-col gap-3 lg:gap-2">
+                <label
+                  htmlFor={formic.values.id}
+                  className="font-[100] text-[1.2rem]"
+                >
+                  UPLOAD PASSPORT PICTURE (PDF Only)
+                </label>
+                <input
+                  name={"id"}
+                  type="file"
+                  onChange={(e) => {
+                    formic.setFieldValue("idImage", e?.target?.files[0]);
+                  }}
+                  className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+                />
+              </div>
+            )}
           </SectionLayout>
         </div>
 
