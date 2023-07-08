@@ -1,16 +1,20 @@
 import Field from "../../components/shared_components/InputField";
 // src/components/userDashboardComponents/home
 import React, { useEffect, useState } from "react";
-import { Icon } from "@iconify/react";
+import IconLoading from "../../components/userDashboardComponents/shared/IconLoading";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
 const SignUpPage = () => {
+  const validationSchema = Yup.object({
+    firstName: Yup.string().required()
+  })
   const nav = useNavigate();
-  const [file, setFile] = useState("");
+  const [nonGh, setNonGh] = useState(false)
   const [isloading, setLoading] = React.useState(false);
-    const id_type = ['Ghana-Card','Driver-License']
+  const id_type = ["Ghana-Card", "Driver-License"];
   const formic = useFormik({
     initialValues: {
       firstName: "",
@@ -18,10 +22,11 @@ const SignUpPage = () => {
       email: "",
       id: 0,
       existing: false,
-      issued: '',
-      expiry: '',
-      phoneNumber: '', 
-      idNumber: ''
+      issued: "",
+      expiry: "",
+      phoneNumber: "",
+      idNumber: "",
+      ghanaian: !nonGh
     },
     validate: (values) => {},
     onSubmit: (values) => {
@@ -43,7 +48,7 @@ const SignUpPage = () => {
           idNumber: formic.values.idNumber,
           idImage: "formic.values.idImage",
           existing: formic.values.existing,
-          location:'test'
+          location: "test",
         },
       });
 
@@ -58,94 +63,139 @@ const SignUpPage = () => {
     }
   }
   return (
-    <div className="w-[30%] mx-auto bg-[#000] p-8 mb-6 text-[#fff]">
+    <div className="w-[65%] mx-auto bg-[#000] p-8 mb-6 text-[#fff]">
       <h4 className="text-[2.3rem] mb-4">Become a user.</h4>
       <form onSubmit={formic.handleSubmit} className="flex flex-col gap-5">
-        <Field
-          name={"firstName"}
-          type={"text"}
-          value={formic.values.firstName}
-          label={"Firstname"}
-          onChange={formic.handleChange}
-        />
-        <Field
-          name={"lastName"}
-          type={"text"}
-          value={formic.values.lastName}
-          label={"Lastname"}
-          onChange={formic.handleChange}
-        />
-        <Field
-          name={"email"}
-          type={"email"}
-          value={formic.values.email}
-          label={"Email"}
-          onChange={formic.handleChange}
-        />
-        <Field
-          name={"phoneNumber"}
-          type={"number"}
-          value={formic.values.phoneNumber}
-          label={"Phone Number"}
-          onChange={formic.handleChange}
-        />
+        <div className="grid grid-cols-2 gap-[3rem]">
+          <SectionLayout>
+            <Field
+              name={"firstName"}
+              type={"text"}
+              value={formic.values.firstName}
+              label={"Firstname"}
+              onChange={formic.handleChange}
+            />
+            <Field
+              name={"lastName"}
+              type={"text"}
+              value={formic.values.lastName}
+              label={"Lastname"}
+              onChange={formic.handleChange}
+            />
+            <Field
+              name={"email"}
+              type={"email"}
+              value={formic.values.email}
+              label={"Email"}
+              onChange={formic.handleChange}
+            />
+            <Field
+              name={"phoneNumber"}
+              type={"number"}
+              value={formic.values.phoneNumber}
+              label={"Phone Number"}
+              onChange={formic.handleChange}
+            />
+            {
+              !nonGh &&            <Field
+              name={"phoneNumber"}
+              type={"number"}
+              value={formic.values.phoneNumber}
+              label={"GPS address"}
+              onChange={formic.handleChange}
+            />
+            }
+          </SectionLayout>
+          <SectionLayout>
+          <div className="flex items-center justify-between h-[3rem] ">
+              <input
+                type="checkbox"
+                name="existing"
+                value={nonGh}
+                onChange={() => (setNonGh(!nonGh))}
+                className="accent-egreen h-[1.5rem] w-[1.2rem] "
+                id=""
+              />
+              <p className="text-[1.2rem] font-[100]">Non Ghanaian?</p>
+            </div>
+            <div className="flex flex-col gap-3 lg:gap-2">
+              <label
+                htmlFor={formic.values.id}
+                className="font-[100] text-[1.2rem]"
+              >
+                ID Type
+              </label>
+              <select
+                name={"id"}
+                value={formic.values.id}
+                className="bg-[#000] text-[#fff] border-[0.5px] border-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+              >
+                {nonGh ? <option value={"Passport"}>Passport</option> : <>
+                <option value={0}>Ghana Card</option>
+                <option value={1}>Driver license</option>
+                </>}
+              </select>
+            </div>
+            <Field
+              name={"idNumber"}
+              type={"text"}
+              value={formic.values.idNumber}
+              label={"ID Number"}
+              onChange={formic.handleChange}
+            />
 
-        <div className="flex flex-col gap-3 lg:gap-2">
-          <label
-            htmlFor={formic.values.id}
-            className="font-[100] text-[1.2rem]"
-          >
-            ID Type
-          </label>
-          <select
-            name={"id"}
-            value={formic.values.id}
-            className="bg-[#000] text-[#fff] border-[0.5px] border-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
-          >
-            <option value={0}>Ghana Card</option>
-            <option value={1}>Driver license</option>
-          </select>
-        </div>
-        <Field
-          name={"idNumber"}
-          type={"text"}
-          value={formic.values.idNumber}
-          label={"ID Number"}
-          onChange={formic.handleChange}
-        />
+            <span className="grid grid-cols-2 gap-3">
+              <Field
+                name={"issued"}
+                type={"date"}
+                value={formic.values.issued}
+                label={"Date Issued"}
+                onChange={formic.handleChange}
+              />
 
-        <span className="grid grid-cols-2 gap-3">
-          <Field
-            name={"issued"}
-            type={"date"}
-            value={formic.values.issued}
-            label={"Date Issued"}
-            onChange={formic.handleChange}
-          />
-
-          <Field
-            name={"expiry"}
-            type={"date"}
-            value={formic.values.expiry}
-            label={"Expiry Date"}
-            onChange={formic.handleChange}
-          />
-        </span>
-        <div className="flex flex-col gap-3 lg:gap-2">
-          <label
-            htmlFor={formic.values.id}
-            className="font-[100] text-[1.2rem]"
-          >
-            UPLOAD ID (PDF Only)
-          </label>
-          <input
-            name={"id"}
-            type="file"
-            onChange={(e) => {
-              formic.setFieldValue("idImage", e?.target?.files[0])
-            }}
-            className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
-          />
+              <Field
+                name={"expiry"}
+                type={"date"}
+                value={formic.values.expiry}
+                label={"Expiry Date"}
+                onChange={formic.handleChange}
+              />
+            </span>
+            <div className="flex flex-col gap-3 lg:gap-2">
+              <label
+                htmlFor={formic.values.id}
+                className="font-[100] text-[1.2rem]"
+              >
+                UPLOAD ID (PDF Only)
+              </label>
+              <input
+                name={"id"}
+                type="file"
+                onChange={(e) => {
+                  formic.setFieldValue("idImage", e?.target?.files[0]);
+                }}
+                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+              />
+            </div>
+            {
+              nonGh && <div className="flex flex-col gap-3 lg:gap-2">
+              <label
+                htmlFor={formic.values.id}
+                className="font-[100] text-[1.2rem]"
+              >
+                UPLOAD PASSPORT PICTURE (PDF Only)
+              </label>
+              <input
+                name={"id"}
+                type="file"
+                onChange={(e) => {
+                  formic.setFieldValue("idImage", e?.target?.files[0]);
+                }}
+                className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
+              />
+            </div>
+            }
+          </SectionLayout>
         </div>
 
         <button
@@ -153,14 +203,18 @@ const SignUpPage = () => {
           type="submit"
           disabled={isloading}
         >
-          {isloading ? (
-            <Icon icon="line-md:loading-loop" className="font-[900]" />
-          ) : (
-            "Sign up"
-          )}
+          {isloading ? <IconLoading /> : "Sign up"}
         </button>
       </form>
     </div>
+  );
+};
+
+const SectionLayout = ({ children }) => {
+  return (
+    <section className="flex flex-col gap-3 justify-between">
+      {children}
+    </section>
   );
 };
 

@@ -10,6 +10,7 @@ import CarsPage from '../pages/userDashboard/CarsPage'
 import AvailablePage from "../pages/userDashboard/AvailablePage";
 import SignUpPage from "../pages/user_site/SignUp";
 import SuccessPage from "../pages/user_site/SucessPage";
+import History from "../pages/userDashboard/History";
 export const routes = createBrowserRouter([
     {
         path:"/",
@@ -58,6 +59,10 @@ export const routes = createBrowserRouter([
                 path: "available",
                 element: <AvailablePage />
             },
+            {
+                path:"history",
+                element:<History/>
+            }
         ]
     }
 ])
