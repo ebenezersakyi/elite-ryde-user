@@ -2,9 +2,39 @@ import React from 'react'
 import RentalTable from '../../components/userDashboardComponents/Histoy/HistoryTable'
 import { months } from "../../utils/calender_generator";
 import {years} from '../../utils/dropdowncontents'
+import axios from 'axios';
+import {toast} from 'react-toastify'
+import { useAuth0 } from '@auth0/auth0-react';
 export default function History() {
     const [month, setMonth] = React.useState(months[new Date().getMonth()])
+    const [data, setData] = React.useState()
     const [year, setYear] = React.useState(years[0])
+    const [loading, setLoading] = React.useState(false)
+    const {user} = useAuth0()
+    async function getData()  {
+      try {
+        setLoading(true)
+        const response = await axios({
+          url: `https://elite-ryde-management-api.azurewebsites.net/api/get-user-history?id=${user.sub.slice(6)}`,
+          method: 'get'
+        })
+        if(response?.data?.status){
+          console.log(response?.data?.data);
+          setData(response?.data?.data)
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Error occured \n Try again")
+      }
+      finally{
+        setLoading(false)
+      }
+    } 
+
+
+    React.useEffect(() => {
+      getData()
+    }, [])
     const mock_list = [
       {
         id: "#1394",
@@ -72,7 +102,7 @@ export default function History() {
           <CustomSelect state={year} options={years} setState={setYear}/>
         </span>
         </div>
-        <RentalTable data={mock_list} loading={false}/>
+        <RentalTable data={data} loading={loading}/>
       </div>
     );
 }

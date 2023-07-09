@@ -1,7 +1,7 @@
 import React from "react";
 import IconLoadingWhite from "../../shared_components/IconButton";
 const RentalTable = ({ loading, data }) => {
-  const header_titles = ["ID", "User", "Status", "Date", "Car", "Amount"];
+  const header_titles = ["User", "Status", "Date", "Car", "Amount"];
   return (
     <div className="rounded-lg backdrop-blur-lg border-[1px] border-[#fff] p-[2rem] ">
       {/* header */}
@@ -11,7 +11,10 @@ const RentalTable = ({ loading, data }) => {
             <p
               key={index}
               className={`text-[1.5rem]  font-[400]  ${
-                elem == "User" && "col-span-2"
+                elem == ("User") && "col-span-2"
+              }
+              ${
+                elem == ("Date") && "col-span-2"
               }
               ${elem == "Amount" && "text-end"}`}
             >
@@ -39,7 +42,7 @@ const RentalTable = ({ loading, data }) => {
   );
 };
 const RentalTableRow = ({
-  data: { id, user, status, date, car, amount },
+  data,
   last,
 }) => {
   return (
@@ -48,14 +51,14 @@ const RentalTableRow = ({
         !last && "border-b-[1px]"
       } text-[1.2rem] font-[100] border-bgrey`}
     >
-      <p className={``}>{id}</p>
-      <p className={`col-span-2`}>{user}</p>
-      <p className={``}>{status}</p>
-      <p className={``}>
-        {date[0]} - {date[1]}
+      {/* <p className={``}>{id}</p> */}
+      <p className={`col-span-2`}>{data?.carName}</p>
+      <p className={``}>{data?.status}</p>
+      <p className={`col-span-2`}>
+        {data?.pickupDate} - {data?.returnDate}
       </p>
-      <p className={``}>{car}</p>
-      <p className={`text-end`}>GHS {amount}</p>
+      <p className={``}>{data?.carName}</p>
+      <p className={`text-end`}>GHS {data?.rentalAmount}</p>
     </div>
   );
 };

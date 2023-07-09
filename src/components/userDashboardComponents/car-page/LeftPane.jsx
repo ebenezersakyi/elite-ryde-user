@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import DatePicker from "./LeftPane/DatePicker";
 import { useSelector } from "react-redux";
-import { Icon } from "@iconify/react";
 import {
   set_pick_up_date,
   set_return_date,
@@ -15,12 +14,16 @@ import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
 
 const LeftPane = () => {
-  const [out, setOut] = React.useState(false);
+  
+  const [out, setOut] = React.useState(0);
   const [isloading, setLoading] = React.useState(false);
+  const[time, setTime] = useState('')
   const { data } = useSelector((d) => d?.selected_car);
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const { user } = useAuth0();
+  console.log(user);
   const nav = useNavigate();
+  const scope = ["within_accra", "outside_accra", "cross_country"];
   async function book() {
     try {
       setLoading(true);
@@ -29,15 +32,12 @@ const LeftPane = () => {
         url: `https://elite-ryde-management-api.azurewebsites.net/api/book-a-ride`,
         method: "post",
         data: {
-          userEmail: user?.email,
+          userId: user?.sub.slice(6),
           carId: data?._id,
-          rentalDuration: days,
-          rentalPrice: !out
-            ? data?.booking?.price?.within_accra
-            : data?.booking?.price?.outside_accra,
           pickupDate: pick_up_date,
           returnDate: return_date,
-          within_accra: !out,
+          scope: scope[out],
+          time
         },
       });
 
@@ -53,7 +53,7 @@ const LeftPane = () => {
     }
   }
   return (
-    <div className="col-span-1 rounded-2xl flex flex-col gap-4   max-h-[84vh] ">
+    <div className="col-span-1 rounded-2xl flex flex-col gap-4   max-h-[100vh] ">
       <img
         src={data?.photos[0]}
         alt=""
@@ -65,46 +65,29 @@ const LeftPane = () => {
           <h4 className="text-[2rem]">Booking</h4>
           <div className="flex flex-col  gap-1 ">
             <p>Option</p>
-            <select className=" bg-[transparent] border-bgrey border-[1px] p-2 outline-none rounded-sm ">
-              <option value="inside-accra" selected>
-                Inside Accra
-              </option>
-              <option value="outside-accra">Outside Accra</option>
-              <option value="outside-ghana">Outside Ghana</option>
+            <select
+              className=" bg-[transparent] border-bgrey border-[1px] p-2 outline-none rounded-sm "
+              onChange={(e) => setOut(e.currentTarget.value)}
+            >
+              <option value={0}>Inside Accra</option>
+              <option value={1}>Outside Accra</option>
+              <option value={2}>Cross Country</option>
             </select>
           </div>
         </div>
 
         <p className="text-egreen text-4xl mt-3">
           GHC{" "}
-          {!out
+          {out == 0
             ? data?.booking?.price?.within_accra
-            : data?.booking?.price?.outside_accra}{" "}
+            : out == 1
+            ? data?.booking?.price?.outside_accra
+            : data?.booking?.price?.cross_country}
           / day
         </p>
         <div className="grid grid-cols-2 items-center gap-2">
-
-          <div className="flex flex-col  gap-1 ">
-            {/*<input
-            type="checkbox"
-            name="existing"
-            value={out}
-            onChange={() => {
-              setOut(!out);
-            }}
-            className="accent-egreen h-[1.5rem] w-[1.2rem] "
-            id=""
-          />*/}
-            <p>Option</p>
-            <select className=" bg-[transparent] border-bgrey border-[1px] p-2 outline-none rounded-sm ">
-              <option value="inside-accra" selected>
-                Inside Accra
-              </option>
-              <option value="outside-accra">Outside Accra</option>
-              <option value="outside-ghana">Outside Ghana</option>
-            </select>
-          </div>
-          <div className=" flex flex-col gap-1">
+         
+          <div className=" flex flex-col gap-1 mb-3">
             <label htmlFor="time">Time</label>
             <div className="border-[1px] border-bgrey flex justify-between items-center text-bgrey rounded-2xl w-max p-2 relative gap-2">
               <input
@@ -112,6 +95,8 @@ const LeftPane = () => {
                 className=" bg-[transparent] outline-none focus:border-none"
                 name="time"
                 id="time"
+                value={time}
+                onChange={(e) => setTime(e.currentTarget.value)}
               />
             </div>
           </div>
