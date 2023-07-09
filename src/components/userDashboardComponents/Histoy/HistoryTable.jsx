@@ -58,7 +58,7 @@ const RentalTableRow = ({
         {data?.pickupDate} - {data?.returnDate}
       </p>
       <p className={``}>{data?.carName}</p>
-      <p className={`text-end`}>GHS {data?.rentalAmount}</p>
+      <p className={`text-end`}>GHS {data?.rentalAmount?.toFixed(2)}</p>
     </div>
   );
 };

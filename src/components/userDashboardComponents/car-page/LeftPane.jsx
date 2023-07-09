@@ -14,14 +14,13 @@ import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
 
 const LeftPane = () => {
-  
+  const [self, setSelf] = useState(false);
   const [out, setOut] = React.useState(0);
   const [isloading, setLoading] = React.useState(false);
-  const[time, setTime] = useState('')
+  const [time, setTime] = useState("");
   const { data } = useSelector((d) => d?.selected_car);
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const { user } = useAuth0();
-  console.log(user);
   const nav = useNavigate();
   const scope = ["within_accra", "outside_accra", "cross_country"];
   async function book() {
@@ -37,7 +36,8 @@ const LeftPane = () => {
           pickupDate: pick_up_date,
           returnDate: return_date,
           scope: scope[out],
-          time
+          time,
+          selfDrive: self,
         },
       });
 
@@ -85,9 +85,8 @@ const LeftPane = () => {
             : data?.booking?.price?.cross_country}
           / day
         </p>
-        <div className="grid grid-cols-2 items-center gap-2">
-         
-          <div className=" flex flex-col gap-1 mb-3">
+        <div className="flex justify-between items-center gap-2 ">
+          <div className="flex flex-col">
             <label htmlFor="time">Time</label>
             <div className="border-[1px] border-bgrey flex justify-between items-center text-bgrey rounded-2xl w-max p-2 relative gap-2">
               <input
@@ -99,6 +98,17 @@ const LeftPane = () => {
                 onChange={(e) => setTime(e.currentTarget.value)}
               />
             </div>
+          </div >
+          <div className="flex items-center gap-2 justify-between h-[3rem] ">
+            <input
+              type="checkbox"
+              name="existing"
+              value={self}
+              onChange={() => setSelf(!self)}
+              className="accent-egreen h-[1.5rem] w-[1.2rem] "
+              id=""
+            />
+            <p className="text-[1.2rem] font-[100]">Self Drive</p>
           </div>
         </div>
         <span className="grid grid-cols-2 gap-2">
