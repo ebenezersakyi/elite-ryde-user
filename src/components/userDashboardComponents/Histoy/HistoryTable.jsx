@@ -52,7 +52,6 @@ const RentalTableRow = ({
         !last && "border-b-[1px]"
       } text-[1.2rem] font-[100] border-bgrey`}
     >
-      {/* <p className={``}>{id}</p> */}
       <p className={`col-span-2`}>{data?.carName}</p>
       <p className={``}>{data?.status}</p>
       <p className={`col-span-2`}>

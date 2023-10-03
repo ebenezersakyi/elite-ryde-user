@@ -12,6 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
+import { baseURlUser } from "../../../utils";
 
 const LeftPane = () => {
   const [self, setSelf] = useState(false);
@@ -26,18 +27,20 @@ const LeftPane = () => {
   async function book() {
     try {
       setLoading(true);
-      const days = getDaysDifference(pick_up_date, return_date);
       const response = await axios({
-        url: `https://elite-ryde-management-api.azurewebsites.net/api/book-a-ride`,
+        url: `${baseURlUser}/approval`,
         method: "post",
         data: {
-          userId: user?.sub.slice(6),
-          carId: data?._id,
-          pickupDate: pick_up_date,
-          returnDate: return_date,
-          scope: scope[out],
-          time,
-          selfDrive: self,
+          type: "book_ride",
+          content: JSON.stringify({
+            userId: user?.sub.slice(6),
+            carId: data?._id,
+            pickupDate: pick_up_date,
+            returnDate: return_date,
+            scope: scope[out],
+            time,
+            selfDrive: self,
+          }),
         },
       });
 
@@ -98,7 +101,7 @@ const LeftPane = () => {
                 onChange={(e) => setTime(e.currentTarget.value)}
               />
             </div>
-          </div >
+          </div>
           <div className="flex items-center gap-2 justify-between h-[3rem] ">
             <input
               type="checkbox"

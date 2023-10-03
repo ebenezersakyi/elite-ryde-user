@@ -6,8 +6,8 @@ import axios from "axios";
 import IconLoading from "../../components/shared_components/IconLoading";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { baseURlUser, uploadDocument } from "../../utils";
 const SignUpPage = () => {
-  const [uploadLoading, setUploadLoading] = React.useState(false);
   const [nonGh, setNonGh] = useState(false);
 
   const validationSchema = Yup.object({
@@ -51,55 +51,32 @@ const SignUpPage = () => {
       signUp();
     },
   });
-  async function upload(file, field) {
-    const formData = new FormData();
-    formData?.append("file", file);
-    try {
-      setUploadLoading(true);
-      const response = await axios.post(
-        `https://elite-ryde-management-api.azurewebsites.net/api/upload-document?documentType=business%20registration%20document&userEmail=${formic.values.email?.replace(
-          /[^\w\s]/g,
-          ""
-        )}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
 
-      if (response?.data?.status) {
-        // formic.setFieldValue("doc", e?.target?.files[0]);
-        toast.success("Document uploaded succesfully");
-        formic.setFieldValue(field, response?.data.data.url);
-        //  dispatch(set_image(`${response.data.data.url}?${token}`))
-      }
-    } catch (error) {
-      toast.error("An error occured. \n Try again");
-    } finally {
-      setUploadLoading(false);
-    }
-  }
   async function signUp() {
     setLoading(true);
     try {
+      const uploadedFiles = !formic?.values.ghanaian
+        ? await uploadDocument([, formic.values.idImage,formic.values.image], "docs", formic.values.email?.replace(/[^\w\s]/g, ""))
+        : await uploadDocument([formic.values.idImage], "docs", formic.values.email?.replace(/[^\w\s]/g, ""))
       const response = await axios({
-        url: "https://elite-ryde-management-api.azurewebsites.net/api/become-a-user",
+        url: `${baseURlUser}/approval`,
         method: "post",
         data: {
-          firstName: formic.values.firstName,
-          lastName: formic.values.lastName,
-          email: formic.values.email,
-          phoneNumber: formic.values.phoneNumber,
-          idType: id_type[formic.values.id],
-          idNumber: formic.values.idNumber,
-          idImage: formic.values.idImage,
-          existing: formic.values.existing,
-          location: formic.values.GPSAddress,
-          passportPicture: formic.values.image || "ghanaian",
-          nonGhanaian: formic.values.ghanaian,
-          password: formic.values.password,
+          type: "user_signup",
+          content: JSON.stringify({
+            firstName: formic.values.firstName,
+            lastName: formic.values.lastName,
+            email: formic.values.email,
+            phoneNumber: formic.values.phoneNumber,
+            idType: id_type[formic.values.id],
+            idNumber: formic.values.idNumber,
+            idImage: uploadedFiles[0],
+            existing: formic.values.existing,
+            location: formic.values.GPSAddress,
+            passportPicture: uploadedFiles[1] || "ghanaian",
+            nonGhanaian: formic.values.ghanaian,
+            password: formic.values.password,
+          }),
         },
       });
 
@@ -224,7 +201,7 @@ const SignUpPage = () => {
                 name={"id"}
                 type="file"
                 onChange={(e) => {
-                  upload(e?.target?.files[0], "idImage");
+                  formic.setFieldValue("idImage", e.target.files[0]);
                 }}
                 className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
               />
@@ -241,7 +218,7 @@ const SignUpPage = () => {
                   name={"id"}
                   type="file"
                   onChange={(e) => {
-                    upload(e?.target?.files[0], "image");
+                    formic.setFieldValue("image", e.target.files[0]);
                   }}
                   className="bg-[#000] text-[#fff] mt-4 outline-none text-[0.9rem]  py-2 px-0"
                 />
@@ -261,35 +238,48 @@ const SignUpPage = () => {
     </div>
   );
 };
-function FieldPassword({ name, placeholder, value, label, onChange, type,error }) {
-  const [show, setShow] = useState(false)
+function FieldPassword({
+  name,
+  placeholder,
+  value,
+  label,
+  onChange,
+  type,
+  error,
+}) {
+  const [show, setShow] = useState(false);
   return (
     <div className="flex flex-col gap-3 lg:gap-2">
-    <label htmlFor={name} className="font-[100] text-[1.2rem]">
+      <label htmlFor={name} className="font-[100] text-[1.2rem]">
         {label}
-    </label>
-    <div>
-    <input
-    autoComplete='new-password'
-      type={show? 'text': 'password'}
-      name={name}
-      placeholder={placeholder}
-      value={value}
-      className="outline-none bg-[#000] border-bgrey border-b-[0.5px] text-[0.9rem]  w-[90%] py-2 placeholder:text-bgrey    text-[#fff]"
-      onChange={onChange}
-    />
-    <p className="text-[#fff] inline-block cursor-pointer text-center" onClick={() => {
-      setShow(!show)
-    }}>{show ? 'hide': 'show'}</p>
-    </div>
-    {error  && (
+      </label>
+      <div className=" grid grid-cols-12">
+        <input
+          autoComplete="new-password"
+          type={show ? "text" : "password"}
+          name={name}
+          placeholder={placeholder}
+          value={value}
+          className="outline-none grid col-span-11 bg-[#000] border-bgrey border-b-[0.5px] text-[0.9rem]  w-[90%] py-2 placeholder:text-bgrey    text-[#fff]"
+          onChange={onChange}
+        />
+        <p
+          className="text-[#fff] grid place-items-center font-[100] min-w-max cursor-pointer text-center bg-bgrey px-2"
+          onClick={() => {
+            setShow(!show);
+          }}
+        >
+          {show ? "hide" : "show"}
+        </p>
+      </div>
+      {error && (
         <p className="text-[#EF0107] font-[300] text-[0.8rem]">
           *{error.toLowerCase()}
         </p>
       )}
-  </div>
-      );
-    };
+    </div>
+  );
+}
 const SectionLayout = ({ children }) => {
   return (
     <section className="flex flex-col gap-3 justify-between">
