@@ -25,9 +25,16 @@ const LeftPane = () => {
   const nav = useNavigate();
   const scope = ["within_accra", "outside_accra", "cross_country"];
 
+  console.log("user", user);
+
   async function book() {
+    if (!time) {
+      toast.error("Please select a pick up time");
+      return;
+    }
     try {
       setLoading(true);
+      const [firstName, lastName] = user.name.split(" ");
       const response = await axios({
         url: `${baseURlUser}/approval`,
         method: "post",
@@ -41,6 +48,10 @@ const LeftPane = () => {
             scope: scope[out],
             time,
             selfDrive: self,
+            email: user.email,
+            firstName: firstName,
+            lastName: lastName,
+            location: data?.additionalInformation?.location,
           }),
         },
       });
@@ -115,13 +126,14 @@ const LeftPane = () => {
             <p className="text-[1.2rem] font-[100]">Self Drive</p>
           </div>
         </div>
-        <span className="grid grid-cols-2 gap-2">
+        <span className="grid grid-cols-1 gap-2 sm:grid-cols-1">
           <DatePicker
             placeholder={pick_up_date}
             type={1}
             setDate={set_pick_up_date}
             p={"pick_up_date"}
             label={"PickUp Date"}
+            // start={}
           />
           <DatePicker
             cat={"Return date"}

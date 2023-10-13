@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 const initialState = {
   start_price: "200",
-  end_price: "5000",
+  end_price: "10000",
   car_model: 0,
   transmission: 0,
   engine_type: 0,
@@ -54,12 +54,11 @@ export const details_slice = createSlice({
       state.return_date = action.payload;
     },
     set_color: (state, action) => {
-      state.color= action.payload;
+      state.color = action.payload;
     },
     set_number_of_seats: (state, action) => {
       state.number_of_seats = action.payload;
     },
-    
   },
 });
 
@@ -76,7 +75,7 @@ export const {
   set_return_date,
   set_transmisson,
   set_number_of_seats,
-  set_color
+  set_color,
 } = details_slice.actions;
 
 export default details_slice.reducer;

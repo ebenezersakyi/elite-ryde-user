@@ -86,10 +86,10 @@ export function CustomCalender({ setDate, hide, start, p }) {
   }
   const _years = generateYears();
   return (
-    <div className="absolute bottom-[100%] w-[100%] right-[0%] pb-1  px-2 py-1 rounded-md z-[100] bg-[#fff] text-[#000] text-center font-light ">
+    <div className="absolute top-[100%] w-[100%] right-[0%] pb-1  px-2 py-1 rounded-md z-[100] bg-[#fff] text-[#000] text-center font-light ">
       <div className="flex justify-between text-[0.9rem] gap-2 mb-2 pt-2">
         <select
-          className=" outline-none"
+          className=" outline-none "
           value={year}
           onChange={(e) => {
             setYear(e.currentTarget.value);

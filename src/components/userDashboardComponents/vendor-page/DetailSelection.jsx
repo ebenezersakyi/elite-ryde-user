@@ -24,7 +24,7 @@ const DetailSelection = () => {
         pathname == "/dashboard/available"
           ? "pl-[0px] px-0 pt-[2rem]"
           : " pl-[1.5rem] py-0 "
-      }  border-[#fff] grid grid-cols-2 items-center justify-center gap-4 w-[100%] mt-[25px] lg:w-[33%]`}
+      }  border-[#fff] grid grid-cols-1 items-center justify-center gap-4 w-[100%] sm:grid-cols-2 mt-[25px] lg:w-[33%]`}
     >
       <Dropdown
         category={"Engine size"}

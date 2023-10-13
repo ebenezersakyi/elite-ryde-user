@@ -94,7 +94,7 @@ const PriceSlide = () => {
         }}
       />
       <div
-        className={` grid grid-cols-3 gap-2 mt-8  ${
+        className={` grid grid-cols-1 gap-2 mt-8  sm:grid-cols-3 ${
           pathname == "/dashboard/available" && "grid grid-cols-2 gap-3"
         }`}
       >
