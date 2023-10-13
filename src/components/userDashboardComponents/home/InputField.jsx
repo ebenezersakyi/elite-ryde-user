@@ -5,6 +5,7 @@ import search from "../../../assets/dashboard/home/search.svg";
 import filter from "../../../assets/dashboard/home/filter.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { baseURLGeneral } from "../../../utils";
 
 const InputField = () => {
   const nav = useNavigate();
@@ -19,7 +20,7 @@ const InputField = () => {
     }
     try {
       const response = await axios.get(
-        `http://localhost:7073/api/search-car/?car=${sting}`
+        `${baseURLGeneral}/search-car/?car=${sting}`
       );
       console.log("response", response?.data?.data);
       setSearchResults(response?.data?.data);
