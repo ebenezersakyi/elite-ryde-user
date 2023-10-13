@@ -6,12 +6,17 @@ import { bg } from "../../utils/bg";
 import Dashboardheader from "../../components/userDashboardComponents/shared/Dashboardheader";
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
 
 const UserDashBoardLayout = () => {
   const nav = useNavigate();
   const [current, setCurrent] = useState(0);
-  const { isAuthenticated, isLoading, error } = useAuth0();
+  const { isAuthenticated, isLoading, error, user } = useAuth0();
+  // const { user } = useAuth0();
+  const auth0 = useAuth0();
+
   const { pathname } = useLocation();
+
   useEffect(() => {
     if (isLoading === false) {
       if (isAuthenticated === false) {
@@ -21,7 +26,20 @@ const UserDashBoardLayout = () => {
         nav("/");
       }
     }
-  }, [isLoading]);
+    // console.log("user", user);
+    meta();
+  }, [isLoading, user]);
+
+  const meta = async () => {
+    // if (user) {
+    //   const metadata= user.m
+    // }
+    if (user) {
+      const meta = user;
+      console.log("meta", meta);
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       if (current < bg.length - 1) {
@@ -34,13 +52,14 @@ const UserDashBoardLayout = () => {
     }, 7000);
     return () => clearInterval(interval);
   }, [current]);
+
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <div
-          className={`relative  min-h-[100vh] overflow-y-hidden bg-no-repeat bg-fixed bg-cover bg-center hidden md:block duration-700 `}
+          className={`relative  min-h-[100vh] overflow-y-hidden bg-no-repeat bg-fixed bg-cover bg-center block duration-700 `}
         >
           <img
             src={bg[current]}

@@ -1,14 +1,17 @@
 import Field from "../../components/shared_components/InputField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import IconLoading from "../../components/shared_components/IconLoading";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { baseURlUser, uploadDocument } from "../../utils";
+import { baseURLGeneral, baseURlUser, uploadDocument } from "../../utils";
+import PasswordStrengthBar from "react-password-strength-bar";
+
 const SignUpPage = () => {
   const [nonGh, setNonGh] = useState(false);
+  const [strengthValue, setStrengthValue] = useState();
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Fisrt name is required"),
@@ -19,7 +22,7 @@ const SignUpPage = () => {
     phoneNumber: Yup.string().required("Phone number is required"),
     ghanaian: Yup.boolean(),
     idNumber: Yup.string().required("This field must be filled"),
-    password: Yup.string().required("Required"),
+    // password: Yup.string().required("Required"),
     image: nonGh && Yup.string().required(),
   });
   const nav = useNavigate();
@@ -53,48 +56,97 @@ const SignUpPage = () => {
   });
 
   async function signUp() {
+    if (strengthValue < 4) {
+      toast.error("Please create a stronger password ");
+      return;
+    }
     setLoading(true);
-    try {
-      const uploadedFiles = !formic?.values.ghanaian
-        ? await uploadDocument([, formic.values.idImage,formic.values.image], "docs", formic.values.email?.replace(/[^\w\s]/g, ""))
-        : await uploadDocument([formic.values.idImage], "docs", formic.values.email?.replace(/[^\w\s]/g, ""))
-      const response = await axios({
-        url: `${baseURlUser}/approval`,
-        method: "post",
-        data: {
-          type: "user_signup",
-          content: JSON.stringify({
-            firstName: formic.values.firstName,
-            lastName: formic.values.lastName,
-            email: formic.values.email,
-            phoneNumber: formic.values.phoneNumber,
-            idType: id_type[formic.values.id],
-            idNumber: formic.values.idNumber,
-            idImage: uploadedFiles[0],
-            existing: formic.values.existing,
-            location: formic.values.GPSAddress,
-            passportPicture: uploadedFiles[1] || "ghanaian",
-            nonGhanaian: formic.values.ghanaian,
-            password: formic.values.password,
-          }),
-        },
-      });
+    checkIfEmailExists().then(async (data) => {
+      if (!data) {
+        toast.error("Email already exists ");
+        setLoading(false);
+        return;
+      }
+      // });
+      try {
+        const uploadedFiles = !formic?.values.ghanaian
+          ? await uploadDocument(
+              [, formic.values.idImage, formic.values.image],
+              "docs",
+              formic.values.email?.replace(/[^\w\s]/g, "")
+            )
+          : await uploadDocument(
+              [formic.values.idImage],
+              "docs",
+              formic.values.email?.replace(/[^\w\s]/g, "")
+            );
+        const response = await axios({
+          url: `${baseURlUser}/approval`,
+          method: "post",
+          data: {
+            type: "user_signup",
+            content: JSON.stringify({
+              firstName: formic.values.firstName,
+              lastName: formic.values.lastName,
+              email: formic.values.email,
+              phoneNumber: formic.values.phoneNumber,
+              idType: id_type[formic.values.id],
+              idNumber: formic.values.idNumber,
+              idImage: uploadedFiles[0],
+              existing: formic.values.existing,
+              location: formic.values.GPSAddress,
+              passportPicture: uploadedFiles[1] || "ghanaian",
+              nonGhanaian: formic.values.ghanaian,
+              password: formic.values.password,
+            }),
+          },
+        });
 
+        if (response?.data?.status) {
+          nav("/sucess");
+        }
+      } catch (error) {
+        toast.error(error.message);
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (formic.values.email.length > 0) {
+      checkIfEmailExists();
+    }
+  }, [formic.values.email]);
+
+  const checkIfEmailExists = async () => {
+    try {
+      const response = await axios({
+        url: `${baseURLGeneral}/email-exists?email=${formic.values.email}`,
+        method: "get",
+      });
       if (response?.data?.status) {
-        nav("/sucess");
+        console.log(response?.data?.data);
+        if (response?.data?.data) {
+          toast.error("Email already exists");
+        } else {
+        }
+      } else {
       }
     } catch (error) {
-      toast.error(error.message);
       console.log(error);
+      toast.error("Error occured");
     } finally {
       setLoading(false);
     }
-  }
+  };
+
   return (
-    <div className="w-[65%] mx-auto bg-[#000] p-8 mb-6 text-[#fff]">
+    <div className="mx-auto bg-[#000] p-8 mb-6 text-[#fff] w-[90vw]">
       <h4 className="text-[2.3rem] mb-4">Become a user.</h4>
       <form onSubmit={formic.handleSubmit} className="flex flex-col gap-5">
-        <div className="grid grid-cols-2 gap-[3rem]">
+        <div className=" flex flex-col md:grid grid-cols-2 gap-[3rem] ">
           <SectionLayout>
             <Field
               name={"firstName"}
@@ -118,8 +170,15 @@ const SignUpPage = () => {
               value={formic.values.password}
               label={"Password"}
               onChange={formic.handleChange}
-              error={formic.errors.password}
+              // error={formic.errors.password}
             />
+            <PasswordStrengthBar
+              password={formic.values.password}
+              onChangeScore={(value) => {
+                setStrengthValue(value);
+                console.log(value);
+              }}
+            />{" "}
             <Field
               name={"email"}
               type={"email"}

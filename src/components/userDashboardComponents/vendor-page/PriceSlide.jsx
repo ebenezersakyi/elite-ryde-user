@@ -20,7 +20,8 @@ import dash from "../../../assets/dashboard/vendor/body-styles/dash.svg";
 
 const PriceSlide = () => {
   const dispatch = useDispatch();
-  const { start_price, end_price, transmission, car_model, engine_type } = useSelector(state => state.details)
+  const { start_price, end_price, transmission, car_model, engine_type } =
+    useSelector((state) => state.details);
   const [params, setParams] = useSearchParams();
 
   function valuetext(value) {
@@ -30,15 +31,15 @@ const PriceSlide = () => {
 
   const { pathname } = useLocation();
   const handleChange1 = (event, newValue, activeThumb) => {
-      dispatch(set_starting_price(newValue[0]))
-      dispatch(set_end_price(newValue[1]))
-  }
+    dispatch(set_starting_price(newValue[0]));
+    dispatch(set_end_price(newValue[1]));
+  };
   useEffect(() => {
     if (params.get("start_price")) {
-      dispatch(set_starting_price(params.get("start_price")))
+      dispatch(set_starting_price(params.get("start_price")));
     }
     if (params.get("end_price")) {
-      dispatch(set_end_price(params.get("end_price")))
+      dispatch(set_end_price(params.get("end_price")));
     }
   }, []);
 
@@ -48,7 +49,7 @@ const PriceSlide = () => {
         pathname == "/dashboard/available"
           ? " pr-[0px] py-1 "
           : " pr-[1.5rem] py-2 "
-      } border-[#fff] `}
+      } border-[#fff] w-[100%] mt-[25px] md:w-[50%] lg:w-[33%]`}
     >
       <div>
         <h4 className="text-[1.2rem] mb-4">Price:</h4>

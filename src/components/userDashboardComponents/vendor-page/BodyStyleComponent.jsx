@@ -4,20 +4,19 @@ import van from "../../../assets/dashboard/vendor/body-styles/van.svg";
 import truck from "../../../assets/dashboard/vendor/body-styles/truck.svg";
 import hatchback from "../../../assets/dashboard/vendor/body-styles/hatchBack.svg";
 import { set_body_style } from "../../../store/dashboard_state_slice";
-import { useDispatch, useSelector} from "react-redux";
-import { useLocation, useSearchParams} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useSearchParams } from "react-router-dom";
 const BodyStyleComponent = () => {
-  const { body_style } = useSelector((data) => data.details)
+  const { body_style } = useSelector((data) => data.details);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-  const [param, _] = useSearchParams()
+  const [param, _] = useSearchParams();
 
   useEffect(() => {
-      if(param.get("body_style")){
-        dispatch(set_body_style(param.get("body_style")))
-      }
-
-  }, [])
+    if (param.get("body_style")) {
+      dispatch(set_body_style(param.get("body_style")));
+    }
+  }, []);
   const types = [
     {
       name: "Coupe",
@@ -37,14 +36,13 @@ const BodyStyleComponent = () => {
     },
   ];
 
-
   return (
     <div
       className={`${
         pathname == "/dashboard/available"
           ? "px-[0rem] pt-[2rem] "
           : " px-[1.5rem] py-2 "
-      } flex flex-col`}
+      } flex flex-col w-[100%] mt-[25px] md:w-[50%] lg:w-[33%]`}
     >
       <h4 className="text-[1.2rem] mb-6">Body type:</h4>
 
@@ -62,7 +60,7 @@ const BodyStyleComponent = () => {
               className={` ${
                 pathname == "/dashboard/available" ? "py-[1rem] " : ""
               } flex border-[1px]  rounded-xl ${
-                (body_style == inx)  ? "border-egreen " : ' border-bgrey '
+                body_style == inx ? "border-egreen " : " border-bgrey "
               } items-center justify-center flex-col cursor-pointer`}
               onClick={() => {
                 dispatch(set_body_style(inx));

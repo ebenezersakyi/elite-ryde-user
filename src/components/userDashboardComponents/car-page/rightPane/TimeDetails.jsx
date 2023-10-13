@@ -22,15 +22,48 @@ const TimeDetails = () => {
   ];
   return (
     <div className="grid grid-cols-3 gap-[2.5rem] px-[0rem] py-[2rem] items-center">
-      <div className="col-span-2 text-[1.1rem] font-[500]">
-        <h4 className="mb-6">Available for booking from</h4>
+      {/* <div className="col-span-3 text-[1.1rem] font-[500]">
         <span className="flex gap-4">
-          <Calendar className={"text-[#000]"} value={new Date(data?.booking?.dates?.startDate)}/>
-          <Calendar className={"text-[#000]"} value={new Date(data?.booking?.dates?.endDate)} />
-        </span>
-      </div>
+          <span className="w-[47%] justify-center items-center flex flex-col">
+            <h4 className="mb-6">Available for booking from</h4>
 
-      <div className="flex flex-col gap-6">
+            <Calendar
+              className={"text-[#000] h-full"}
+              value={new Date(data?.booking?.dates?.startDate)}
+            />
+          </span>
+          <span className="w-[47%] justify-center items-center flex flex-col">
+            <h4 className="mb-6">Available for booking to</h4>
+
+            <Calendar
+              className={"text-[#000] h-full"}
+              value={new Date(data?.booking?.dates?.endDate)}
+            />
+          </span>
+        </span>
+      </div> */}
+
+      <div className="flex flex-col gap-6 col-span-3">
+        <span>
+          <h4 className="text-[0.9rem] font-[300]  mb-4">
+            Available for rent from:
+          </h4>
+          <span className="flex justify-between gap-2 items-center">
+            <p className="py-1 border-[1px] border-[#fff] rounded-md font-[100] text-center text-[0.9rem] flex-1">
+              {String(new Date(data?.booking?.dates?.startDate))
+                .split(" ")
+                .slice(0, 4)
+                .join(" ")}
+            </p>
+            <p>to</p>
+            <p className="py-1 border-[1px] border-[#fff] rounded-md font-[100] text-center text-[0.9rem] flex-1">
+              {String(new Date(data?.booking?.dates?.endDate))
+                .split(" ")
+                .slice(0, 4)
+                .join(" ")}
+            </p>
+          </span>
+        </span>
         <span>
           <p>Outside Accra</p>
           <p className="px-2 py-2 border-[0.7px] border-[#fff] rounded-md">
@@ -78,27 +111,6 @@ const TimeDetails = () => {
               </div>
             ))}
           </div>
-        </span>
-
-        <span>
-          <h4 className="text-[0.9rem] font-[300]  mb-4">
-            Available for rent from:
-          </h4>
-          <span className="flex justify-between gap-2 items-center">
-            <p className="py-1 border-[1px] border-[#fff] rounded-md font-[100] text-center text-[0.9rem] flex-1">
-              {String(new Date(data?.booking?.dates?.startDate))
-                .split(" ")
-                .slice(0, 4)
-                .join(" ")}
-            </p>
-            <p>to</p>
-            <p className="py-1 border-[1px] border-[#fff] rounded-md font-[100] text-center text-[0.9rem] flex-1">
-            {String(new Date(data?.booking?.dates?.endDate))
-                .split(" ")
-                .slice(0, 4)
-                .join(" ")}
-            </p>
-          </span>
         </span>
       </div>
     </div>

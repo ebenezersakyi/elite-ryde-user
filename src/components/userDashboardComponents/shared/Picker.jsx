@@ -5,22 +5,21 @@ import { genetate, months } from "../../../utils/calender_generator";
 import arrow from "../../../assets/dashboard/vendor/arrow.svg";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-const Picker = ({ img, cat, placeholder, type, start, setDate,p }) => {
-
+const Picker = ({ img, cat, placeholder, type, start, setDate, p }) => {
   const [show, setShow] = useState(false);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const [param ] = useSearchParams()
+  const [param] = useSearchParams();
   useEffect(() => {
-    if(param.get(p)){
-      dispatch(setDate(param.get(p)))
+    if (param.get(p)) {
+      dispatch(setDate(param.get(p)));
     }
-  },[])
+  }, []);
   return (
     <div
       className={`px-[2rem] relative flex ${
         pathname == "/dashboard/available" ? "gap-4 " : "justify-around"
-      } items-center gap-4 `}
+      } items-center gap-4 col-span-3 sm:col-span-1 mt-[25px]`}
     >
       <div className="h-full">
         <img
@@ -68,12 +67,14 @@ const Picker = ({ img, cat, placeholder, type, start, setDate,p }) => {
 };
 
 export function CustomCalender({ setDate, hide, start, p }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const days = ["S", "M", "T", "W", "T", "F", "S"];
   const currentDate = dayjs();
-  const [month, setMonth] = useState(dayjs(start).month()|| currentDate.month());
-  const [year, setYear] = useState(dayjs(start).year() ||currentDate.year());
+  const [month, setMonth] = useState(
+    dayjs(start).month() || currentDate.month()
+  );
+  const [year, setYear] = useState(dayjs(start).year() || currentDate.year());
   const [selected, setSelected] = useState(currentDate);
   const presentYear = new Date().getFullYear();
   function generateYears() {
@@ -138,9 +139,15 @@ export function CustomCalender({ setDate, hide, start, p }) {
                   key={index}
                   className={`
                   cursor-pointer
-                  text-[0.9rem] ${istoday && ' border-egreen border-[1px] px-1 '}
-                  ${!currentMonth && 'font-[100] text-[#858585] ' }
-                  ${past ? 'cursor-not-allowed line-through text-[red]' : 'hover:text-egreen'}
+                  text-[0.9rem] ${
+                    istoday && " border-egreen border-[1px] px-1 "
+                  }
+                  ${!currentMonth && "font-[100] text-[#858585] "}
+                  ${
+                    past
+                      ? "cursor-not-allowed line-through text-[red]"
+                      : "hover:text-egreen"
+                  }
 
 
                   `}

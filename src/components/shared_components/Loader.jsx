@@ -1,7 +1,7 @@
 import React from "react";
 const Loader = () => {
   return (
-    <div className="text-[white] text-center">
+    <div className="text-[white] text-center max-w-[100%]">
       <div class="lds-facebook">
         <div></div>
         <div></div>

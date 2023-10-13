@@ -1,23 +1,18 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     screens: {
-      'sm': '640px',
-      'md': '768px',
-      'lg': '1280px',
-      '2xl': '1536px'
+      sm: "640px",
+      md: "768px",
+      lg: "1024px",
+      xl: "1280px",
     },
     extend: {},
     colors: {
-      'egreen': '#00E124',
-      'bgrey' : '#696969'
+      egreen: "#00E124",
+      bgrey: "#696969",
     },
   },
-  plugins: [
-    require('tailwind-scrollbar-hide')
-  ],
-}
-
+  plugins: [require("tailwind-scrollbar-hide")],
+};

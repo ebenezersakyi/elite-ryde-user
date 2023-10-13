@@ -7,33 +7,33 @@ import img from "../../../assets/dashboard/vendor/back.svg";
 import { useNavigate } from "react-router-dom";
 import { cars } from "../../../utils/car";
 import Loader from "../../shared_components/Loader";
-const CarsPane = () => {
+const CarsPane = ({ data }) => {
   const nav = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
-  async function fetchCars() {
-    try {
-      setLoading(true);
-      const response = await axios({
-        url: `https://elite-ryde-management-api.azurewebsites.net/api/car`,
-        method: "get",
-      });
+  // const [data, setData] = useState();
+  // async function fetchCars() {
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios({
+  //       url: `https://elite-ryde-management-api.azurewebsites.net/api/car`,
+  //       method: "get",
+  //     });
 
-      if (response?.data?.status) {
-        console.log(response?.data?.data);
-        setData(response?.data?.data);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  }
+  //     if (response?.data?.status) {
+  //       console.log(response?.data?.data);
+  //       setData(response?.data?.data);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
-  useEffect(() => {
-    fetchCars();
-  }, []);
+  // useEffect(() => {
+  //   fetchCars();
+  // }, []);
   return (
     <div className="px-[1.5rem] lg:max-h-[100vh] col-span-2 overflow-scroll scrollbar-hide">
       <div className="py-[2.5rem] flex justify-between items-center">

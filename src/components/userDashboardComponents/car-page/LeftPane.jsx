@@ -24,6 +24,7 @@ const LeftPane = () => {
   const { user } = useAuth0();
   const nav = useNavigate();
   const scope = ["within_accra", "outside_accra", "cross_country"];
+
   async function book() {
     try {
       setLoading(true);
@@ -50,13 +51,13 @@ const LeftPane = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("An erro occured");
+      toast.error("An error occured");
     } finally {
       setLoading(false);
     }
   }
   return (
-    <div className="col-span-1 rounded-2xl flex flex-col gap-4   max-h-[100vh] ">
+    <div className="col-span-2 rounded-2xl flex flex-col gap-4   max-h-[100vh] ">
       <img
         src={data?.photos[0]}
         alt=""
