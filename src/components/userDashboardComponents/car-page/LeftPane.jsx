@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
 import { baseURlUser } from "../../../utils";
 import { PaystackButton } from "react-paystack";
+import { usePaystackPayment } from "react-paystack";
 
 const LeftPane = () => {
   const [self, setSelf] = useState(false);
@@ -30,6 +31,29 @@ const LeftPane = () => {
 
   const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
 
+  const config = {
+    reference: new Date().getTime().toString(),
+    email: user.email,
+    amount: 20000, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    publicKey: publicKey,
+    currency: "GHS",
+    metadata: {
+      name: user.name,
+      phone: user.phone_number,
+    },
+  };
+
+  const initializePayment = usePaystackPayment(config);
+
+  const onSuccess = (reference) => {
+    console.log("reference", reference);
+    book(reference.reference);
+  };
+
+  const onClose = () => {
+    console.log("closed");
+  };
+
   const componentProps = {
     email: user.email,
     amount: 100,
@@ -40,8 +64,9 @@ const LeftPane = () => {
     publicKey,
     currency: "GHS",
     text: "Book ride",
-    onclick: () => {
-      if (!time) {
+    onclick: (e) => {
+      console.log("eeeeeeeeeeeeee");
+      if (time.length == 0) {
         toast.error("Please select a pick up time");
         return;
       }
@@ -52,15 +77,9 @@ const LeftPane = () => {
       // console.log("datadata", data);
       book(data.reference);
     },
-
-    onClose: () => {},
   };
 
   async function book(id) {
-    if (!time) {
-      toast.error("Please select a pick up time");
-      return;
-    }
     try {
       setLoading(true);
       const [firstName, lastName] = user.name.split(" ");
@@ -183,13 +202,21 @@ const LeftPane = () => {
         </span>
 
         <p
-          // onClick={() => book()}
+          onClick={() => {
+            // book();
+            if (!time) {
+              toast.error("Please select a pick up time");
+              return;
+            }
+            initializePayment(onSuccess, onClose);
+          }}
           className="p-4 text-center border-[1px] flex justify-center items-center mt-5 border-bgrey rounded-2xl text-[1.5rem] font-[500] cursor-pointer hover:bg-egreen duration-700"
         >
           {isloading ? (
             <IconLoadingWhite />
           ) : (
-            <PaystackButton className="paystack-button" {...componentProps} />
+            // <PaystackButton className="paystack-button" {...componentProps} />
+            "Book now"
           )}
         </p>
       </div>
