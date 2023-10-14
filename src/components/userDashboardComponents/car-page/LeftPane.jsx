@@ -41,6 +41,10 @@ const LeftPane = () => {
     currency: "GHS",
     text: "Book ride",
     onclick: () => {
+      if (!time) {
+        toast.error("Please select a pick up time");
+        return;
+      }
       // setShowCheckout(false);
     },
     onSuccess: (data) => {
