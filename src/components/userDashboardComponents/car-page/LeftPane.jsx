@@ -45,7 +45,7 @@ const LeftPane = () => {
     },
     onSuccess: (data) => {
       toast("Success");
-      console.log("datadata", data);
+      // console.log("datadata", data);
       book(data.reference);
     },
 
