@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
 import { baseURlUser } from "../../../utils";
+import { PaystackButton } from "react-paystack";
 
 const LeftPane = () => {
   const [self, setSelf] = useState(false);
@@ -27,7 +28,31 @@ const LeftPane = () => {
 
   console.log("user", user);
 
-  async function book() {
+  const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
+
+  const componentProps = {
+    email: user.email,
+    amount: 100,
+    metadata: {
+      name: user.name,
+      phone: user.phone_number,
+    },
+    publicKey,
+    currency: "GHS",
+    text: "Book ride",
+    onclick: () => {
+      // setShowCheckout(false);
+    },
+    onSuccess: (data) => {
+      toast("Success");
+      console.log("datadata", data);
+      book(data.reference);
+    },
+
+    onClose: () => {},
+  };
+
+  async function book(id) {
     if (!time) {
       toast.error("Please select a pick up time");
       return;
@@ -52,6 +77,13 @@ const LeftPane = () => {
             firstName: firstName,
             lastName: lastName,
             location: data?.additionalInformation?.location,
+            transactionId: id,
+            price:
+              out == 0
+                ? data?.booking?.price?.within_accra
+                : out == 1
+                ? data?.booking?.price?.outside_accra
+                : data?.booking?.price?.cross_country,
           }),
         },
       });
@@ -147,10 +179,14 @@ const LeftPane = () => {
         </span>
 
         <p
-          onClick={() => book()}
+          // onClick={() => book()}
           className="p-4 text-center border-[1px] flex justify-center items-center mt-5 border-bgrey rounded-2xl text-[1.5rem] font-[500] cursor-pointer hover:bg-egreen duration-700"
         >
-          {isloading ? <IconLoadingWhite /> : "Book ride"}
+          {isloading ? (
+            <IconLoadingWhite />
+          ) : (
+            <PaystackButton className="paystack-button" {...componentProps} />
+          )}
         </p>
       </div>
     </div>
