@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "./LeftPane/DatePicker";
 import { useSelector } from "react-redux";
 import {
@@ -20,6 +20,7 @@ const LeftPane = () => {
   const [self, setSelf] = useState(false);
   const [out, setOut] = React.useState(0);
   const [isloading, setLoading] = React.useState(false);
+  const [activeSessions, setActiveSessions] = React.useState([]);
   const [time, setTime] = useState("");
   const { data } = useSelector((d) => d?.selected_car);
   const { pick_up_date, return_date } = useSelector((data) => data.details);
@@ -27,14 +28,19 @@ const LeftPane = () => {
   const nav = useNavigate();
   const scope = ["within_accra", "outside_accra", "cross_country"];
 
-  console.log("user", user);
+  console.log("data", data);
 
   const publicKey = process.env.REACT_APP_PAYSTACK_PUBLIC_KEY;
 
   const config = {
     reference: new Date().getTime().toString(),
     email: user.email,
-    amount: 20000, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    amount:
+      (out == 0
+        ? data?.booking?.price?.within_accra
+        : out == 1
+        ? data?.booking?.price?.outside_accra
+        : data?.booking?.price?.cross_country) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
     publicKey: publicKey,
     currency: "GHS",
     metadata: {
@@ -54,30 +60,58 @@ const LeftPane = () => {
     console.log("closed");
   };
 
-  const componentProps = {
-    email: user.email,
-    amount: 100,
-    metadata: {
-      name: user.name,
-      phone: user.phone_number,
-    },
-    publicKey,
-    currency: "GHS",
-    text: "Book ride",
-    onclick: (e) => {
-      console.log("eeeeeeeeeeeeee");
-      if (time.length == 0) {
-        toast.error("Please select a pick up time");
-        return;
-      }
-      // setShowCheckout(false);
-    },
-    onSuccess: (data) => {
-      toast("Success");
-      // console.log("datadata", data);
-      book(data.reference);
-    },
+  const getActiveSessions = async () => {
+    try {
+      const response = await axios.get(
+        `${baseURlUser}/active-car-session?carId=${data._id}`
+      );
+      console.log("response", response.data?.data);
+      setActiveSessions(response.data?.data);
+    } catch (error) {}
   };
+
+  const checkIfDateIsWithin = (givenDateStr, type) => {
+    // Given date in "Sun Oct 15 2023" format
+    // const givenDateStr = givenDateStr;
+
+    // Parse the given date into a JavaScript Date object
+    const givenDate = new Date(givenDateStr);
+
+    // Object containing pickupDate and returnDate
+    const rentalObject = {
+      pickupDate: activeSessions[0]?.pickupDate,
+      returnDate: activeSessions[0]?.returnDate,
+    };
+    console.log("rentalObject", rentalObject);
+
+    // Parse pickupDate and returnDate into JavaScript Date objects
+    const pickupDate = new Date(rentalObject.pickupDate);
+    const returnDate = new Date(rentalObject.returnDate);
+
+    // Check if the given date is within the range defined by pickupDate and returnDate
+    if (givenDate >= pickupDate && givenDate <= returnDate) {
+      console.log(
+        "The given date is within the pickupDate and returnDate range."
+      );
+      toast.error(`${type} is within an active session.`);
+      return true;
+    } else {
+      console.log(
+        "The given date is not within the pickupDate and returnDate range."
+      );
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    getActiveSessions();
+    // console.log("pick_up_date", pick_up_date);
+  }, []);
+
+  useEffect(() => {
+    checkIfDateIsWithin(pick_up_date, "Pick Up Date");
+    checkIfDateIsWithin(return_date, "Return Date");
+  }, [pick_up_date, return_date, activeSessions]);
 
   async function book(id) {
     try {
@@ -122,6 +156,7 @@ const LeftPane = () => {
       setLoading(false);
     }
   }
+
   return (
     <div className="col-span-2 rounded-2xl flex flex-col gap-4   max-h-[100vh] ">
       <img
@@ -204,6 +239,14 @@ const LeftPane = () => {
         <p
           onClick={() => {
             // book();
+            if (
+              checkIfDateIsWithin(pick_up_date, "Pick Up Date") ||
+              checkIfDateIsWithin(return_date, "Return Date")
+            ) {
+              console.log("return");
+              return;
+            }
+
             if (!time) {
               toast.error("Please select a pick up time");
               return;
