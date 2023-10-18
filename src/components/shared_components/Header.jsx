@@ -59,7 +59,7 @@ const Header = () => {
               text="Rent your car"
               href={"https://ellite-ryde-vendor-site.vercel.app/"}
             />
-            <HeaderBtn text="Contact us" link={"/"} />
+            <HeaderBtn text="Contact us" link={"/contact"} />
           </div>
         </header>
       </div>
@@ -98,6 +98,7 @@ const Header = () => {
               <p
                 onClick={() => {
                   Nav(path);
+                  setMenuVisible(false);
                 }}
                 className={`text-[1.3rem] font-[500] hover:text-egreen cursor-pointer  ${
                   pathname === path && "border-b-2 border-egreen text-egreen "
@@ -114,7 +115,7 @@ const Header = () => {
             text="Rent your Car"
             link={"https://ellite-ryde-vendor-site.vercel.app/"}
           />
-          <HeaderBtn text="Contact us" link={"/"} />
+          <HeaderBtn text="Contact us" link={"/contact"} />
         </div>
       </div>
     </>

@@ -44,24 +44,25 @@ const CarsPage = () => {
       nav("/");
     }
   }, []);
-  // if(loading){
-  //   return <p>loading</p>
-  // }
+
+  if (loading) {
+    return <Loader />;
+  }
   // else
   return (
     <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[2.5rem] gap-8 grid grid-cols-1 mt-5 md:grid-cols-4 ">
-      {loading ? (
+      {/* {loading ? (
         <div className="w-[100vw] grid place-items-center">
           <Loader />
         </div>
-      ) : (
-        data && (
-          <>
-            <LeftPane />
-            <Rightpane />
-          </>
-        )
+      ) : ( */}
+      {data && (
+        <>
+          <LeftPane />
+          <Rightpane />
+        </>
       )}
+      {/* )} */}
     </div>
   );
 };

@@ -8,10 +8,12 @@ import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { baseURLGeneral, baseURlUser, uploadDocument } from "../../utils";
 import PasswordStrengthBar from "react-password-strength-bar";
+import { BeatLoader, ClipLoader } from "react-spinners";
 
 const SignUpPage = () => {
   const [nonGh, setNonGh] = useState(false);
   const [strengthValue, setStrengthValue] = useState();
+  const [loadingEmail, setLoadingEmail] = useState(false);
 
   const validationSchema = Yup.object({
     firstName: Yup.string().required("Fisrt name is required"),
@@ -122,6 +124,7 @@ const SignUpPage = () => {
   }, [formic.values.email]);
 
   const checkIfEmailExists = async () => {
+    setLoadingEmail(true);
     let status = false;
     try {
       const response = await axios({
@@ -132,14 +135,17 @@ const SignUpPage = () => {
         console.log(response?.data?.data);
         if (response?.data?.data) {
           toast.error("Email already exists");
+          setLoadingEmail(false);
           status = true;
         } else {
+          setLoadingEmail(false);
           status = false;
         }
       } else {
       }
       return status;
     } catch (error) {
+      setLoadingEmail(false);
       console.log(error);
       toast.error("Error occured");
     } finally {
@@ -184,14 +190,21 @@ const SignUpPage = () => {
                 console.log(value);
               }}
             />{" "}
-            <Field
-              name={"email"}
-              type={"email"}
-              value={formic.values.email}
-              label={"Email"}
-              onChange={formic.handleChange}
-              error={formic.errors.email}
-            />
+            <div className="relative">
+              <Field
+                name={"email"}
+                type={"email"}
+                value={formic.values.email}
+                label={"Email"}
+                onChange={formic.handleChange}
+                error={formic.errors.email}
+              />
+              {loadingEmail && (
+                <span className="absolute right-0 top-[50%]">
+                  <ClipLoader size={15} color="white" />
+                </span>
+              )}
+            </div>
             <Field
               name={"phoneNumber"}
               type={"number"}

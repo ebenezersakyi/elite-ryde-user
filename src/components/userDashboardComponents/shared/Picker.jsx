@@ -133,7 +133,7 @@ export function CustomCalender({ setDate, hide, start, p }) {
                     } else {
                       hide(false);
                       dispatch(setDate(date.toDate().toDateString()));
-                      toast.success("Date selected");
+                      // toast.success("Date selected");
                     }
                   }}
                   key={index}

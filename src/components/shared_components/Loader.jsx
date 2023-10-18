@@ -1,8 +1,8 @@
 import React from "react";
 const Loader = () => {
   return (
-    <div className="text-[white] text-center max-w-[100%]">
-      <div class="lds-facebook">
+    <div className="text-[white] text-center w-[100vw]">
+      <div className="lds-facebook">
         <div></div>
         <div></div>
         <div></div>

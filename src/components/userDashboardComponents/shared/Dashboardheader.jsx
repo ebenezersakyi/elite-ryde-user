@@ -69,6 +69,7 @@ const Dashboardheader = () => {
           <p
             onClick={() => {
               nav("/dashboard/history");
+              setMenuVisible(false);
             }}
             className={`text-[1.3rem]  font-[400] hover:text-egreen cursor-pointer  ${
               pathname == '"/dashboard/history"' &&
@@ -80,6 +81,7 @@ const Dashboardheader = () => {
           <p
             onClick={() => {
               dispatch(show_settings());
+              setMenuVisible(false);
             }}
             className={`text-[1.3rem]  font-[400] hover:text-egreen cursor-pointer  ${
               pathname == '"/dashboard/history"' &&
@@ -87,6 +89,18 @@ const Dashboardheader = () => {
             }`}
           >
             Settings
+          </p>
+          <p
+            onClick={() => {
+              nav("/dashboard/contact");
+              setMenuVisible(false);
+            }}
+            className={`text-[1.3rem]  font-[400] hover:text-egreen cursor-pointer  ${
+              pathname == '"/dashboard/history"' &&
+              "border-b-2 border-egreen text-egreen "
+            }`}
+          >
+            Contact Us
           </p>
           {/* <p
             onClick={() => {
@@ -117,6 +131,8 @@ function UserTab() {
   const { user } = useAuth0();
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const nav = useNavigate();
+
   const list = [
     {
       name: "Settings",
@@ -124,7 +140,7 @@ function UserTab() {
     },
     {
       name: "Help",
-      child: "",
+      child: "/help",
     },
     {
       name: "Log out",
@@ -171,6 +187,9 @@ function UserTab() {
                 onClick={() => {
                   if (func) {
                     dispatch(func());
+                  }
+                  if (name == "Help") {
+                    nav(`/dashboard/help`);
                   }
                   setShow(false);
                 }}

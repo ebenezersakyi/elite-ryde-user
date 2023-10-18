@@ -5,6 +5,7 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const containerStyle = {
   width: "100%",
@@ -22,6 +23,7 @@ const createMapOptions = {
 
 const MapPane = ({ data }) => {
   const mapRef = useRef(null);
+  const nav = useNavigate();
 
   const onLoad = React.useCallback(function callback(mapL) {
     mapRef.current = mapL;
@@ -37,7 +39,7 @@ const MapPane = ({ data }) => {
   }, []);
 
   return isLoaded ? (
-    <div className="w-full h-full">
+    <div className="w-full h-[80vh]">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={{ lat: 5.6772176, lng: -0.1251477 }}
@@ -84,7 +86,11 @@ const MapPane = ({ data }) => {
               <img
                 src={item.photos[0]}
                 alt=""
-                className="h-[50px] w-[50px] rounded-lg"
+                className="h-[40px] w-[50px] rounded-lg object-fill"
+                onClick={() => {
+                  // dispatch(setData(data))
+                  nav(`/dashboard/car?id=${item._id}`);
+                }}
               />
             </InfoBox>
           );

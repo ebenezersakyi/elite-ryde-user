@@ -5,64 +5,77 @@ import AboutPage from "../pages/user_site/AboutPage";
 import HelpPage from "../pages/user_site/HelpPage";
 import UserDashBoardLayout from "../layouts/user_dashboard/UserDashBoardLayout";
 import UserHome from "../pages/userDashboard/UserHome";
-import VendorsPage from '../pages/userDashboard/VendorsPage'
-import CarsPage from '../pages/userDashboard/CarsPage'
+import VendorsPage from "../pages/userDashboard/VendorsPage";
+import CarsPage from "../pages/userDashboard/CarsPage";
 import AvailablePage from "../pages/userDashboard/AvailablePage";
 import SignUpPage from "../pages/user_site/SignUp";
 import SuccessPage from "../pages/user_site/SucessPage";
 import History from "../pages/userDashboard/History";
+import ContactUs from "../pages/user_site/ContactUs";
 export const routes = createBrowserRouter([
-    {
-        path:"/",
-        element: <Layout /> ,
-        children: [
-            {
-                path: "",
-                element: <LandingPage />
-            },
-            {
-                path: "/about",
-                element: <AboutPage />
-            },
-            {
-                path: "/help",
-                element: <HelpPage/>
-            },
-            {
-                path: '/sign-up',
-                element: <SignUpPage />
-            }, 
-            {
-                path: '/sucess', 
-                element: <SuccessPage />
-            }
-        ]
-    },
-    {
-        path: '/dashboard/',
-        element: <UserDashBoardLayout />,
-        children: [
-            {
-                path: "",
-                element: <UserHome />
-            },
-            {
-                path: "vendors",
-                element: <VendorsPage />
-            },
-            {
-                // will have an id as query param
-                path: "car",
-                element: <CarsPage />
-            },
-            {
-                path: "available",
-                element: <AvailablePage />
-            },
-            {
-                path:"history",
-                element:<History/>
-            }
-        ]
-    }
-])
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <LandingPage />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
+      },
+      {
+        path: "/help",
+        element: <HelpPage />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUpPage />,
+      },
+      {
+        path: "/sucess",
+        element: <SuccessPage />,
+      },
+      {
+        path: "/contact",
+        element: <ContactUs />,
+      },
+    ],
+  },
+  {
+    path: "/dashboard/",
+    element: <UserDashBoardLayout />,
+    children: [
+      {
+        path: "",
+        element: <UserHome />,
+      },
+      {
+        path: "vendors",
+        element: <VendorsPage />,
+      },
+      {
+        // will have an id as query param
+        path: "car",
+        element: <CarsPage />,
+      },
+      {
+        path: "available",
+        element: <AvailablePage />,
+      },
+      {
+        path: "history",
+        element: <History />,
+      },
+      {
+        path: "help",
+        element: <HelpPage />,
+      },
+      {
+        path: "contact",
+        element: <ContactUs />,
+      },
+    ],
+  },
+]);
