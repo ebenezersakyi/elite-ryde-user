@@ -62,7 +62,6 @@ const SignUpPage = () => {
       toast.error("Please create a stronger password ");
       return;
     }
-    setLoading(true);
     checkIfEmailExists().then(async (data) => {
       console.log("data", data);
       if (data) {
@@ -71,6 +70,7 @@ const SignUpPage = () => {
         return;
       }
       // });
+      setLoading(true);
       try {
         const uploadedFiles = !formic?.values.ghanaian
           ? await uploadDocument(
@@ -109,6 +109,7 @@ const SignUpPage = () => {
           nav("/sucess");
         }
       } catch (error) {
+        setLoading(false);
         toast.error(error.message);
         console.log(error);
       } finally {
@@ -149,7 +150,7 @@ const SignUpPage = () => {
       console.log(error);
       toast.error("Error occured");
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 

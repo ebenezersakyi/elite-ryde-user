@@ -9,7 +9,7 @@ import { Icon } from "@iconify/react";
 const Rightpane = () => {
   const [activeTab, setActiveTab] = useState(0);
   return (
-    <div className="col-span-2  flex flex-col gap-[2.5rem] scrollbar-hide ">
+    <div className="col-span-2  flex flex-col gap-[2.5rem] scrollbar-hide mt-[90px]">
       <div className="flex w-[100%] sm:hidden pt-[25px] border-t-[1px] border-t-[#cdcdcd]">
         <span
           className={`${

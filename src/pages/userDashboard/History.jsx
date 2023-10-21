@@ -139,7 +139,7 @@ export default function History() {
       {showMessageBox && <MessageInterface />}
 
       <div className="text-[#fff] 2xl:container 2xl:mx-auto px-[10px] pt-[2rem]">
-        <div className="mb-8">
+        <div className="mb-8 ml-[50px]">
           <h4 className="text-egreen text-[3rem] font-[500]">Rental History</h4>
           <span className="flex gap-3">
             <CustomSelect state={month} options={months} setState={setMonth} />

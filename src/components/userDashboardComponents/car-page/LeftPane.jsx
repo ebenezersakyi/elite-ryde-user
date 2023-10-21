@@ -165,7 +165,7 @@ const LeftPane = () => {
         <img
           src={data?.photos[0]}
           alt=""
-          className="w-[100%] rounded-t-2xl border-bgrey border-[1px]"
+          className="w-[100%] h-[450px] rounded-t-2xl border-bgrey border-[1px] object-cover"
         />
         <div className="rounded-b-2xl border-bgrey border-[1px] px-4 py-4 h-full flex flex-col justify-between">
           <div className=" w-full flex justify-between items-center">
