@@ -16,6 +16,8 @@ import { baseURlUser } from "../../../utils";
 import { PaystackButton } from "react-paystack";
 import { usePaystackPayment } from "react-paystack";
 import { Icon } from "@iconify/react";
+import { usePlacesWidget } from "react-google-autocomplete";
+import Autocomplete from "react-google-autocomplete";
 
 const LeftPane = () => {
   const [self, setSelf] = useState(false);
@@ -24,6 +26,9 @@ const LeftPane = () => {
   const [activeSessions, setActiveSessions] = React.useState([]);
   const [showImages, setShowImages] = React.useState(false);
   const [time, setTime] = useState("");
+  const [pickupLocation, setPickupLocation] = useState(null);
+  const [destinationLocation, setDestinationLocation] = useState(null);
+  const [numberOfDays, setNumberOfDays] = useState(0);
   const { data } = useSelector((d) => d?.selected_car);
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const { user } = useAuth0();
@@ -42,7 +47,9 @@ const LeftPane = () => {
         ? data?.booking?.price?.within_accra
         : out == 1
         ? data?.booking?.price?.outside_accra
-        : data?.booking?.price?.cross_country) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+        : data?.booking?.price?.cross_country) *
+      100 *
+      (numberOfDays < 1 ? 1 : numberOfDays), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
     publicKey: publicKey,
     currency: "GHS",
     metadata: {
@@ -50,6 +57,24 @@ const LeftPane = () => {
       phone: user.phone_number,
     },
   };
+
+  useEffect(() => {
+    // Input date strings
+    const dateStr1 = pick_up_date;
+    const dateStr2 = return_date;
+
+    // Convert the date strings to Date objects
+    const date1 = new Date(dateStr1);
+    const date2 = new Date(dateStr2);
+
+    // Calculate the time difference in milliseconds
+    const timeDifference = date2 - date1;
+
+    // Calculate the number of days (1 day = 24 hours * 60 minutes * 60 seconds * 1000 milliseconds)
+    const daysDifference = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+    setNumberOfDays(daysDifference);
+    console.log("daysDifference", daysDifference);
+  }, [pick_up_date, return_date]);
 
   const initializePayment = usePaystackPayment(config);
 
@@ -111,6 +136,7 @@ const LeftPane = () => {
   }, []);
 
   useEffect(() => {
+    console.log("pick_up_date, return_date", pick_up_date, return_date);
     checkIfDateIsWithin(pick_up_date, "Pick Up Date");
     checkIfDateIsWithin(return_date, "Return Date");
   }, [pick_up_date, return_date, activeSessions]);
@@ -143,6 +169,8 @@ const LeftPane = () => {
                 : out == 1
                 ? data?.booking?.price?.outside_accra
                 : data?.booking?.price?.cross_country,
+            pickupLocation: pickupLocation || {},
+            destinationLocation: destinationLocation || {},
           }),
         },
       });
@@ -158,6 +186,12 @@ const LeftPane = () => {
       setLoading(false);
     }
   }
+
+  const options = {
+    fields: ["address_components", "geometry", "icon", "name"],
+    strictBounds: false,
+    types: ["establishment"],
+  };
 
   return (
     <>
@@ -238,6 +272,46 @@ const LeftPane = () => {
             />
           </span>
 
+          {!self && (
+            <>
+              <div className="flex flex-col mt-[10px]">
+                <label htmlFor="time">Pickup Location</label>
+                <div className="border-[1px] border-bgrey flex justify-between items-center text-bgrey rounded-2xl w-[100%] p-3 mt-[7px] relative gap-2">
+                  <Autocomplete
+                    apiKey={"AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ"}
+                    onPlaceSelected={(place) => {
+                      console.log(place);
+                      setPickupLocation({
+                        lat: place?.geometry?.location?.lat(),
+                        long: place?.geometry?.location?.lng(),
+                      });
+                    }}
+                    options={options}
+                    className=" bg-[transparent] outline-none h-[100%] w-[100%] focus:border-none"
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col mt-[10px]">
+                <label htmlFor="time">Destination Location</label>
+                <div className="border-[1px] border-bgrey flex justify-between items-center text-bgrey rounded-2xl w-[100%] p-3 mt-[7px] relative gap-2">
+                  <Autocomplete
+                    apiKey={"AIzaSyAKT8LXpv2aVfHyHKo8N9LzQmzCSktAYQQ"}
+                    onPlaceSelected={(place) => {
+                      console.log(place);
+                      setDestinationLocation({
+                        lat: place?.geometry?.location?.lat(),
+                        long: place?.geometry?.location?.lng(),
+                      });
+                    }}
+                    options={options}
+                    className=" bg-[transparent] outline-none h-[100%] w-[100%] focus:border-none"
+                  />
+                </div>
+              </div>
+            </>
+          )}
+
           <p
             onClick={() => {
               // book();
@@ -251,6 +325,11 @@ const LeftPane = () => {
 
               if (!time) {
                 toast.error("Please select a pick up time");
+                return;
+              }
+
+              if (!self && (!pickupLocation || !destinationLocation)) {
+                toast.error("Please add a pickup and destination location");
                 return;
               }
               initializePayment(onSuccess, onClose);

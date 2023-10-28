@@ -1,10 +1,13 @@
 import {
+  DirectionsRenderer,
   GoogleMap,
   InfoBox,
   Marker,
   useJsApiLoader,
+  LoadScript,
+  DirectionsService,
 } from "@react-google-maps/api";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const containerStyle = {
@@ -24,6 +27,13 @@ const createMapOptions = {
 const MapPane = ({ data }) => {
   const mapRef = useRef(null);
   const nav = useNavigate();
+  const [directions, setDirections] = useState(null);
+
+  // const directionOptions = {
+  //   origin: 2,
+  //   destination: 2,
+  //   travelMode: "DRIVING",
+  // };
 
   const onLoad = React.useCallback(function callback(mapL) {
     mapRef.current = mapL;
@@ -35,8 +45,8 @@ const MapPane = ({ data }) => {
   });
 
   useEffect(() => {
-    // console.log("data", data[0].additionalInformation.geolocation.long);
-  }, []);
+    console.log("data", data);
+  }, [isLoaded]);
 
   return isLoaded ? (
     <div className="w-full h-[80vh]">
@@ -51,6 +61,8 @@ const MapPane = ({ data }) => {
         // onZoomChanged={onDragEnd}
         options={createMapOptions}
       >
+        {/* <DirectionsRenderer /> */}
+        {/* <DirectionsService options={directionOptions} /> */}
         {data?.map((item, index) => {
           return (
             // <Marker
