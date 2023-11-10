@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DatePicker from "./LeftPane/DatePicker";
 import { useSelector } from "react-redux";
 import {
@@ -12,7 +12,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import IconLoadingWhite from "../../shared_components/IconButton";
-import { baseURlUser } from "../../../utils";
+import { baseURLGeneral, baseURlUser } from "../../../utils";
 import { PaystackButton } from "react-paystack";
 import { usePaystackPayment } from "react-paystack";
 import { Icon } from "@iconify/react";
@@ -29,6 +29,9 @@ const LeftPane = () => {
   const [pickupLocation, setPickupLocation] = useState(null);
   const [destinationLocation, setDestinationLocation] = useState(null);
   const [numberOfDays, setNumberOfDays] = useState(0);
+  const [showPromoCodePopUp, setShowPromoCodePopUp] = useState(false);
+  const [promoCodeText, setPromoCodeText] = useState("");
+  const [discount, setDiscount] = useState(null);
   const { data } = useSelector((d) => d?.selected_car);
   const { pick_up_date, return_date } = useSelector((data) => data.details);
   const { user } = useAuth0();
@@ -49,7 +52,8 @@ const LeftPane = () => {
         ? data?.booking?.price?.outside_accra
         : data?.booking?.price?.cross_country) *
       100 *
-      (numberOfDays < 1 ? 1 : numberOfDays), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+      (numberOfDays < 1 ? 1 : numberOfDays) *
+      (discount ? (100 - discount) / 100 : 1), //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
     publicKey: publicKey,
     currency: "GHS",
     metadata: {
@@ -98,10 +102,6 @@ const LeftPane = () => {
   };
 
   const checkIfDateIsWithin = (givenDateStr, type) => {
-    // Given date in "Sun Oct 15 2023" format
-    // const givenDateStr = givenDateStr;
-
-    // Parse the given date into a JavaScript Date object
     const givenDate = new Date(givenDateStr);
 
     // Object containing pickupDate and returnDate
@@ -127,6 +127,35 @@ const LeftPane = () => {
         "The given date is not within the pickupDate and returnDate range."
       );
       return false;
+    }
+  };
+
+  const checkPromoCode = () => {
+    const codeMatch = data?.promoCodes.filter((item) => {
+      return item.code == promoCodeText;
+    });
+    if (codeMatch.length > 0) {
+      toast(`${codeMatch[0]?.discount}% discount applied`);
+      setDiscount(codeMatch[0]?.discount);
+      deletePromoCode(codeMatch[0]?.code);
+    } else {
+      toast.error("Invalid promo code");
+    }
+    setShowPromoCodePopUp(false);
+  };
+
+  const deletePromoCode = async (code) => {
+    try {
+      const response = await axios.post(
+        `https://elite-ryde-admin-api.azurewebsites.net/api/promo-code-delete`,
+        {
+          promoCode: code,
+          carId: data?._id,
+        }
+      );
+      console.log("response", response);
+    } catch (error) {
+      toast.error(`Error`);
     }
   };
 
@@ -192,6 +221,63 @@ const LeftPane = () => {
     strictBounds: false,
     types: ["establishment"],
   };
+
+  const getVendor = async () => {
+    try {
+      const response = await axios.get(
+        `${baseURLGeneral}/get-vendor?id=${data?.vendorId}`
+      );
+      console.log("Response: ", response?.data);
+    } catch (error) {
+      console.log("Err: ", error);
+    }
+  };
+
+  const PromoCode = useMemo(() => {
+    return (
+      <div className="flex fixed top-0 z-20 w-[100%] h-[100%] justify-center items-center backdrop-blur-sm">
+        <div className="text-[#fff] gap-[3rem]  backdrop-blur-3xl bg-bgrey px-8 py-8 rounded-[20px] border-[1px] border-bgrey text-center items-center justify-center flex flex-col">
+          <p className="font-[100] text-[1.5rem]">
+            Enter your <br /> Promo code
+          </p>
+
+          <input
+            type="text"
+            value={promoCodeText}
+            placeholder="code goes here..."
+            className="font-[200] text-[#000] outline-none rounded-xl border-[1px] text-[1.3rem] border-[#fff] p-[5px] bg-opacity-100"
+            onChange={(e) => setPromoCodeText(e.target.value)}
+          />
+
+          <span className="flex gap-4">
+            <p
+              onClick={() => {
+                // dispatch(hide_modal())
+                // logout({ logoutParams: { returnTo: window.location.origin } })
+                if (promoCodeText.length == 0) {
+                  toast.error("Pleease Enter a promo code");
+                } else {
+                  checkPromoCode();
+                }
+              }}
+              className="font-[200] rounded-xl border-[1px] text-[1.3rem] border-[#fff] px-5 text-center py-1 cursor-pointer hover:border-egreen duration-700"
+            >
+              Done
+            </p>
+            <p
+              onClick={() => {
+                // dispatch(hide_modal());
+                setShowPromoCodePopUp(false);
+              }}
+              className="font-[200] rounded-xl border-[1px] text-[1.3rem] border-[#fff] px-5 text-center py-1 cursor-pointer hover:border-egreen duration-700"
+            >
+              Cancel
+            </p>
+          </span>
+        </div>
+      </div>
+    );
+  }, [promoCodeText, showPromoCodePopUp]);
 
   return (
     <>
@@ -312,6 +398,15 @@ const LeftPane = () => {
             </>
           )}
 
+          <div
+            className="self-end p-[10px] rounded-2xl mt-[10px] cursor-pointer justify-center items-center border-[1px] border-bgrey"
+            onClick={() => {
+              setShowPromoCodePopUp(true);
+            }}
+          >
+            Promo Code
+          </div>
+
           <p
             onClick={() => {
               // book();
@@ -345,6 +440,7 @@ const LeftPane = () => {
           </p>
         </div>
       </div>
+      {showPromoCodePopUp && <>{PromoCode}</>}
     </>
   );
 };
