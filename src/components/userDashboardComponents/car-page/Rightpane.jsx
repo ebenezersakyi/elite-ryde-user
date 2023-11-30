@@ -4,6 +4,7 @@ import BasicInformation from "./rightPane/BasicInformation";
 import AdditionalInformation from "./rightPane/AdditionalInformation";
 import CarFeatures from "./rightPane/CarFeatures";
 import TimeDetails from "./rightPane/TimeDetails";
+import DriverDetails from "./rightPane/DriverDetails";
 import { Icon } from "@iconify/react";
 
 const Rightpane = () => {
@@ -67,6 +68,20 @@ const Rightpane = () => {
             className={`${activeTab == 3 ? "text-egreen" : "text-[#FFF]"}`}
           />
         </span>
+        <span
+          className={`${
+            activeTab == 4 && "border-b-[3px] border-b-egreen"
+          } w-[25%] flex p-[3px] pb-[10px] justify-center items-center`}
+          onClick={() => {
+            setActiveTab(4);
+          }}
+        >
+          <Icon
+            icon="mdi:user"
+            width={30}
+            className={`${activeTab == 4 ? "text-egreen" : "text-[#FFF]"}`}
+          />
+        </span>
       </div>
 
       <div className={`${activeTab == 0 ? "block" : "hidden"} sm:block`}>
@@ -87,6 +102,11 @@ const Rightpane = () => {
       <div className={`${activeTab == 3 ? "block" : "hidden"} sm:block`}>
         <SectionLayout title={"Time Details"}>
           <TimeDetails />
+        </SectionLayout>
+      </div>
+      <div className={`${activeTab == 4 ? "block" : "hidden"} sm:block`}>
+        <SectionLayout title={"Driver Details"}>
+          <DriverDetails />
         </SectionLayout>
       </div>
     </div>

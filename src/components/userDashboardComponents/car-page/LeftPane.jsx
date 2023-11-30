@@ -80,6 +80,16 @@ const LeftPane = () => {
     console.log("daysDifference", daysDifference);
   }, [pick_up_date, return_date]);
 
+  useEffect(() => {
+    if (data?.vehicle_booking_type == "Both") {
+      setSelf(false);
+    } else if (data?.vehicle_booking_type == "Chauffeur Driven") {
+      setSelf(false);
+    } else if (data?.vehicle_booking_type == "Self Drive") {
+      setSelf(true);
+    }
+  }, []);
+
   const initializePayment = usePaystackPayment(config);
 
   const onSuccess = (reference) => {
@@ -327,15 +337,23 @@ const LeftPane = () => {
               </div>
             </div>
             <div className="flex items-center gap-2 justify-between h-[3rem] ">
-              <input
-                type="checkbox"
-                name="existing"
-                value={self}
-                onChange={() => setSelf(!self)}
-                className="accent-egreen h-[1.5rem] w-[1.2rem] "
-                id=""
-              />
-              <p className="text-[1.2rem] font-[100]">Self Drive</p>
+              {data?.vehicle_booking_type == "Both" ? (
+                <>
+                  <input
+                    type="checkbox"
+                    name="existing"
+                    value={self}
+                    onChange={() => setSelf(!self)}
+                    className="accent-egreen h-[1.5rem] w-[1.2rem] "
+                    id=""
+                  />
+                  <p className="text-[1.2rem] font-[100]">Self Drive</p>
+                </>
+              ) : data?.vehicle_booking_type == "Chauffeur Driven" ? (
+                <p className="text-[1.2rem] font-[100]">Chauffeur Driven</p>
+              ) : data?.vehicle_booking_type == "Self Drive" ? (
+                <p className="text-[1.2rem] font-[100]">Self Drive</p>
+              ) : null}
             </div>
           </div>
           <span className="grid grid-cols-1 gap-2 sm:grid-cols-1">
