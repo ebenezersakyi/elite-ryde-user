@@ -97,7 +97,7 @@ const SignUpPage = () => {
               idNumber: formic.values.idNumber,
               idImage: uploadedFiles[0],
               existing: formic.values.existing,
-              location: formic.values.GPSAddress,
+              location: formic.values.GPSAddress || "Non Ghanaian",
               passportPicture: uploadedFiles[1] || "ghanaian",
               nonGhanaian: formic.values.ghanaian,
               password: formic.values.password,
