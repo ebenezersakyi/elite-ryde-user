@@ -30,7 +30,8 @@ const AccessDeniedPage = () => {
         <span
           className="text-egreen  cursor-pointer"
           onClick={() => {
-            logout();
+            // logout();
+            logout({ logoutParams: { returnTo: window.location.origin } });
           }}
         >
           here
